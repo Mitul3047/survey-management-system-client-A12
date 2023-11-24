@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -24,6 +24,7 @@ const navItems = [
   { name: 'Surveys', path: '/surveys' },
   { name: 'About', path: '/about' },
   { name: 'Contact', path: '/contact' },
+  { name: 'Login', path: '/login' },
 ];
 
 function Navbar(props) {
@@ -50,13 +51,17 @@ function Navbar(props) {
               <NavLink
                 to={item.path}
                 style={{ textDecoration: 'none', color: 'white' }}
-                activeClassName="active"
               >
                 <ListItemText primary={item.name} />
               </NavLink>
             </ListItemButton>
           </ListItem>
         ))}
+        <Link to="#">
+          <Button onClick={handleOpen} variant="outlined" sx={{ color: 'white', ml: 4 }}>
+            Be A Pro User
+          </Button>
+        </Link>
       </List>
     </Box>
   );
@@ -66,7 +71,7 @@ function Navbar(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ background: '#1d3557',py: 1 }}>
+      <AppBar component="nav" sx={{ background: '#1d3557', py: 1 }}>
         <Container maxWidth="lg">
           <Toolbar>
             <IconButton
@@ -91,26 +96,20 @@ function Navbar(props) {
                   <NavLink
                     to={item.path}
                     style={{ textDecoration: 'none', color: 'inherit' }}
-                    activeClassName="active"
                   >
                     {item.name}
                   </NavLink>
                 </Button>
               ))}
-           <Link >
-           <Button onClick={handleOpen} variant="outlined" sx={{color: 'white', ml: 4, }} >
-                Be A Pro User
-              </Button>
-              
-           </Link >
-
-              {/* <button variant="outlined" href="#outlined-buttons">Be A Pro User</button> */}
+              <Link to="#">
+                <Button onClick={handleOpen} variant="outlined" sx={{ color: 'white', ml: 4 }}>
+                  Be A Pro User
+                </Button>
+              </Link>
             </Box>
           </Toolbar>
         </Container>
-        <ProUserModal open={open}
-        handleClose={handleClose}
-       />
+        <ProUserModal open={open} handleClose={handleClose} />
       </AppBar>
       <nav>
         <Drawer
@@ -119,7 +118,7 @@ function Navbar(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
@@ -134,10 +133,6 @@ function Navbar(props) {
 }
 
 Navbar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 
