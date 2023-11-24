@@ -1,19 +1,19 @@
-
+// import * as React from 'react';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const handleLogin = event => {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
-  }
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data.email, data.password);
+  };
 
   return (
     <Container
@@ -40,15 +40,27 @@ const Login = () => {
           alignItems: 'center',
           gap: '16px',
         }}
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <TextField id="outlined-basic" label="Email" name='email' variant="outlined" fullWidth />
         <TextField
-          label="Password"
+          {...register('email', { required: true })}
+          id="outlined-basic"
+          label="Email"
+          name='email'
+          type='email'
           variant="outlined"
-          type="password"
           fullWidth
-          name='password'
+          error={errors.email ? true : false}
+          helperText={errors.email ? 'Email is required' : ''}
+        />
+        <TextField
+          {...register('password', { required: true })}
+          label="Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          error={errors.password ? true : false}
+          helperText={errors.password ? 'Password is required' : ''}
         />
         <Button type="submit" variant="contained" fullWidth sx={{ background: '#1d3557', color: 'white' }}>
           Login
@@ -58,6 +70,7 @@ const Login = () => {
           Login with Google
         </Button>
       </Box>
+      <p><small>Do not have an account? <Link to="/signup">Register</Link></small></p>
     </Container>
   );
 };
