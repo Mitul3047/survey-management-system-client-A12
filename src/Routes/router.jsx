@@ -7,6 +7,8 @@ import Surveys from '../Pages/Surveys/Surveys';
 // import Register from '../Pages/SignUp';
 import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
+import DashBoard from '../Layout/DashBoard';
+import PostSurvey from '../Pages/DashBoard/PostSurvey';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -29,12 +31,22 @@ const router = createBrowserRouter([
             },
             {
                 path: "/signup",
-                element:<SignUp></SignUp>
+                element: <SignUp></SignUp>
             },
             {
                 path: "/login",
                 element: <Login></Login>
             },
+        ]
+    },
+    {
+        path: 'dashboard',
+        element: <DashBoard></DashBoard>,
+        children: [
+            {
+                path:'/dashboard/postSurvey',
+                element:<PostSurvey></PostSurvey>
+            }
         ]
     }
 ])
