@@ -59,10 +59,10 @@ const Testimonials = () => {
                                         value={review.rating}
                                         readOnly
                                     />
-                                    <Typography gutterBottom variant="h5" component="div" sx={{ mt: 2 }}>
+                                    <Typography gutterBottom variant="h5" component="div" sx={{color: '#1d3557', mt: 2 }}>
                                         {review.name}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ textAlign: "justify", mb: 1, p: 1 }}>
+                                    <Typography variant="body2" sx={{ color:'#a9a29c', textAlign: "justify", mb: 1, p: 1 }}>
                                         {review.details}
                                     </Typography>
                                 </CardContent>
