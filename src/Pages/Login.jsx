@@ -28,7 +28,7 @@ const Login = () => {
         margin: '0 auto',
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" sx={{color: '#457b9d'}} gutterBottom>
         Login
       </Typography>
       <Box
