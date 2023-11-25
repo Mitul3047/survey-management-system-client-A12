@@ -6,13 +6,36 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import useAuth from '../Hooks/useAuth';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { signIn } = useAuth()
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+  console.log('state in the location login page', location.state)
 
   const onSubmit = (data) => {
     console.log(data.email, data.password);
+    signIn(data.email, data.password)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+        Swal.fire({
+          title: 'User Login Successful.',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        });
+        navigate(from, { replace: true });
+      })
   };
 
   return (
@@ -28,7 +51,7 @@ const Login = () => {
         margin: '0 auto',
       }}
     >
-      <Typography variant="h4" sx={{color: '#457b9d'}} gutterBottom>
+      <Typography variant="h4" sx={{ color: '#457b9d' }} gutterBottom>
         Login
       </Typography>
       <Box
