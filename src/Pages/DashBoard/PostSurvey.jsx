@@ -15,9 +15,11 @@ const PostSurvey = () => {
         question1: '',
         email: user?.email,
         name: user?.displayName,
+        photo : user?.photoURL,
         category: '',
         like: 0,
         dislike: 0,
+        time: new Date()
     });
 
     const handleChange = (event) => {

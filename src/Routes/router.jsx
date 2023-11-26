@@ -10,6 +10,8 @@ import SignUp from '../Pages/SignUp';
 import DashBoard from '../Layout/DashBoard';
 import PostSurvey from '../Pages/DashBoard/PostSurvey';
 import Users from '../Pages/DashBoard/Users';
+import MySurvey from '../Pages/DashBoard/mysurvey';
+import SurveyDetails from '../Pages/Surveys/SurveyDetails';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -25,6 +27,11 @@ const router = createBrowserRouter([
             {
                 path: "/surveys",
                 element: <Surveys></Surveys>
+            },
+            {
+                path: "/surveys/details/:id",
+                element: <SurveyDetails></SurveyDetails>,
+                
             },
             {
                 path: "/login",
@@ -44,6 +51,7 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <DashBoard></DashBoard>,
         children: [
+            // user
             {
                 path:'/dashboard/postSurvey',
                 element:<PostSurvey></PostSurvey>
@@ -52,6 +60,11 @@ const router = createBrowserRouter([
                 path:'/dashboard/users',
                 element:<Users></Users>
             },
+            {
+                path:'/dashboard/mysurvey',
+                element:<MySurvey></MySurvey>
+            },
+            
         ]
     }
 ])
