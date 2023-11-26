@@ -9,6 +9,7 @@ import Login from '../Pages/Login';
 import SignUp from '../Pages/SignUp';
 import DashBoard from '../Layout/DashBoard';
 import PostSurvey from '../Pages/DashBoard/PostSurvey';
+import Users from '../Pages/DashBoard/Users';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -46,7 +47,11 @@ const router = createBrowserRouter([
             {
                 path:'/dashboard/postSurvey',
                 element:<PostSurvey></PostSurvey>
-            }
+            },
+            {
+                path:'/dashboard/users',
+                element:<Users></Users>
+            },
         ]
     }
 ])

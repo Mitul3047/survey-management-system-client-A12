@@ -1,20 +1,23 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
-// import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle';
 import Swal from 'sweetalert2';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
+import useAuth from '../../Hooks/useAuth';
 
 const PostSurvey = () => {
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
 
     const [surveyData, setSurveyData] = useState({
         title: '',
         description: '',
         question1: '',
-        question2: '',
-        question3: '',
+        email: user?.email,
+        name: user?.displayName,
         category: '',
+        like: 0,
+        dislike: 0,
     });
 
     const handleChange = (event) => {
@@ -27,15 +30,16 @@ const PostSurvey = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axiosSecure.post('/surveys', surveyData)
+        axiosSecure
+            .post('/surveys', surveyData)
             .then((response) => {
-                console.log(response.data.insertedId);
+                console.log(response);
                 if (response.data.insertedId) {
                     Swal.fire({
-                        icon: "success",
+                        icon: 'success',
                         title: `Survey is added successfully.`,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 }
             })
@@ -54,7 +58,7 @@ const PostSurvey = () => {
                     value={surveyData.title}
                     onChange={handleChange}
                     fullWidth
-                    margin='normal'
+                    margin="dense" 
                 />
                 <TextField
                     label="Description"
@@ -63,7 +67,7 @@ const PostSurvey = () => {
                     onChange={handleChange}
                     multiline
                     fullWidth
-                    margin='normal'
+                    margin="dense" 
                 />
                 <TextField
                     label="Question 1 (Yes or No)"
@@ -71,31 +75,16 @@ const PostSurvey = () => {
                     value={surveyData.question1}
                     onChange={handleChange}
                     fullWidth
-                    margin='normal'
+                    margin="dense" 
                 />
-                <TextField
-                    label="Question 2 (Yes or No)"
-                    name="question2"
-                    value={surveyData.question2}
-                    onChange={handleChange}
-                    fullWidth
-                    margin='normal'
-                />
-                <TextField
-                    label="Question 3 (Yes or No)"
-                    name="question3"
-                    value={surveyData.question3}
-                    onChange={handleChange}
-                    fullWidth
-                    margin='normal'
-                />
-                <FormControl fullWidth margin='normal'>
+
+                <FormControl fullWidth margin="dense"> 
                     <InputLabel>Category</InputLabel>
                     <Select
                         name="category"
                         value={surveyData.category}
                         onChange={handleChange}
-                        margin='normal'
+                        margin="dense" 
                     >
                         <MenuItem value="Technology">Technology</MenuItem>
                         <MenuItem value="Health">Health and Wellness</MenuItem>
@@ -105,7 +94,7 @@ const PostSurvey = () => {
                         {/* Add more categories */}
                     </Select>
                 </FormControl>
-                <Button type="submit" margin='normal' variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="primary">
                     Submit
                 </Button>
             </form>

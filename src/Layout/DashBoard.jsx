@@ -11,7 +11,7 @@ const fixedNavItems = [
 ];
 const NavItems = [
     { name: 'Post Survey', path: '/dashboard/postSurvey' },
-    // { name: 'Surveys', path: '/surveys' },
+    { name: 'Users', path: '/dashboard/users' },
     // { name: 'About', path: '/about' },
     // { name: 'Contact', path: '/contact' },
     // { name: 'Login', path: '/login' },
