@@ -13,14 +13,14 @@ const NavItems = [
     { name: 'Post Survey', path: '/dashboard/postSurvey' },
     { name: 'My Survey', path: '/dashboard/mysurvey' },
     { name: 'Users', path: '/dashboard/users' },
-    { name: 'Surveys', path: '/dashboard/survey' },
+    { name: 'Manage Surveys', path: '/dashboard/managesurvey' },
     // { name: 'Contact', path: '/contact' },
     // { name: 'Login', path: '/login' },
 ];
 const DashBoard = () => {
     return (
         <Grid container spacing={2}>
-            <Grid item xs={3} sx={{ background: '#a8dadc', minHeight: '100vh', p: 6 }}>
+            <Grid item xs={3} sx={{ background: '#1d3557', minHeight: '100vh', p: 6 }}>
                 <Box sx={{ mt: 10 }}>
 
 
@@ -29,7 +29,7 @@ const DashBoard = () => {
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton sx={{ textAlign: 'center',}}>
                                     <NavLink to={item.path} style={{ textDecoration: 'none', color: '#1d3557',  }}>
-                                        <ListItemText primary={item.name} />
+                                        <ListItemText sx={{color:"white"}} primary={item.name} />
                                     </NavLink>
                                 </ListItemButton>
                             </ListItem>
@@ -49,7 +49,7 @@ const DashBoard = () => {
                             <ListItem key={item.name} disablePadding>
                                 <ListItemButton sx={{ textAlign: 'center' }}>
                                     <NavLink to={item.path} style={{ textDecoration: 'none', color: '#1d3557' }}>
-                                        <ListItemText primary={item.name} />
+                                        <ListItemText sx={{color:"white"}} primary={item.name} />
                                     </NavLink>
                                 </ListItemButton>
                             </ListItem>

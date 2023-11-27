@@ -50,7 +50,7 @@ const Surveys = () => {
                                 <CardHeader
                                     avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={item?.photo}>
-                                            src
+                                            
                                         </Avatar>
                                     }
                                     action={

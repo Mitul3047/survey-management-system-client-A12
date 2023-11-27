@@ -25,12 +25,10 @@ const navItems = [
   { name: 'Surveys', path: '/surveys' },
   { name: 'About', path: '/about' },
   { name: 'Contact', path: '/contact' },
-  { name: 'Login', path: '/login' },
 ];
 
 function MainNavbar(props) {
   const { user } = useAuth();
-  console.log(user);
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -53,27 +51,24 @@ function MainNavbar(props) {
 
   const avatarMenu = (
     <Menu
-
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={handleAvatarClose}
       onClick={handleAvatarClose}
     >
-      <MenuItem sx={{ px: 4 }}>{user?.displayName
-      }</MenuItem>
+      <MenuItem sx={{ px: 4 }}>{user?.displayName}</MenuItem>
       <MenuItem sx={{ px: 4 }}>{user?.email}</MenuItem>
       <Divider />
-      {/* <NavLink to={'/dashboard'}><MenuItem sx={{ px: 4, textDecoration: 'none' }}>Dashboard</MenuItem></NavLink> */}
       <MenuItem sx={{ px: 4 }}>
         <Link to={'/dashboard'}>
-          <Button fullWidth  variant="outlined" >
+          <Button fullWidth variant="outlined">
             Dashboard
           </Button>
         </Link>
       </MenuItem>
       <MenuItem sx={{ px: 4 }}>
         <Link to="#">
-          <Button fullWidth onClick={handleOpen} variant="outlined" >
+          <Button fullWidth onClick={handleOpen} variant="outlined">
             Be A Pro User
           </Button>
         </Link>
@@ -98,10 +93,10 @@ function MainNavbar(props) {
             </ListItemButton>
           </ListItem>
         ))}
-
       </List>
     </Box>
   );
+
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -126,18 +121,14 @@ function MainNavbar(props) {
             >
               SURVEY
             </Typography>
-            {
-              user &&
-
+            {user && (
               <Avatar
                 alt="User Avatar"
                 src={user?.photoURL} // Assuming user.photoURL holds the image URL
                 sx={{ cursor: 'pointer', ml: 2 }}
                 onClick={handleAvatarClick}
               />
-
-            }
-
+            )}
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               {navItems.map((item) => (
                 <Button key={item.name} sx={{ color: '#fff' }}>
@@ -149,7 +140,13 @@ function MainNavbar(props) {
                   </NavLink>
                 </Button>
               ))}
-
+              {!user && (
+                <Button key="Login" sx={{ color: '#fff' }}>
+                  <NavLink to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Login
+                  </NavLink>
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>

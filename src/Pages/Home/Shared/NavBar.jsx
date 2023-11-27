@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import { Container } from '@mui/material';
 import ProUserModal from './ProUserModal';
 
+
 const drawerWidth = 240;
 const navItems = [
   { name: 'Home', path: '/' },
@@ -28,6 +29,7 @@ const navItems = [
 ];
 
 function Navbar(props) {
+  // const { user , logOut } = useAuth()
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);

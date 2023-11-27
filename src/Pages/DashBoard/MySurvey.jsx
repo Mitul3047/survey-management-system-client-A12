@@ -1,24 +1,21 @@
 import { Box, Button, Grid } from "@mui/material";
 import useSurveys from "../../Hooks/useSurveys";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaAngleDoubleUp, FaTrashAlt } from "react-icons/fa";
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
+
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SectionTitle from "../../Components/Utiles/SetTheme/SectionTitle/SectionTitle";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const MySurvey = () => {
     const { user } = useAuth();
+    // eslint-disable-next-line no-unused-vars
     const [surveys, loading, refetch] = useSurveys();
     const axiosSecure = useAxiosSecure();
     const userSurveys = surveys.filter(survey => survey?.email === user?.email);
@@ -51,45 +48,33 @@ const MySurvey = () => {
 
     return (
         <Box>
-            <SectionTitle heading={"surveys"} />
-            <Grid container sx={{ width: '70%', margin: "auto", mt: 6 }} spacing={2}>
+            <SectionTitle heading={"my surveys"} />
+            <Grid container sx={{ margin: "auto", mt: 6 }} spacing={2}>
                 {userSurveys.map((item) => (
                     <Grid item key={item._id} xs={12} md={6} lg={4}>
                         <Box>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
-                                    avatar={
-                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                            R
-                                        </Avatar>
-                                    }
                                     action={
-                                        <IconButton aria-label="settings">
-                                            <MoreVertIcon />
-                                        </IconButton>
+                                        
+                                            <Button variant="contained" sx={{ mr: 2, p: 2, backgroundColor: 'red' }} onClick={() => handleDeleteUser(item)}>
+                                                <FaTrashAlt className="text-red-600" />
+                                            </Button>
                                     }
                                     title={item.title}
                                     subheader={item.date}
                                 />
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image={item.image}
-                                    alt={item.alt}
-                                />
                                 <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {item.description}
+                                    <Typography variant="body2" color="text.secondary" sx={{ height: 50 }}>
+                                        {item.question1}
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites">
-                                        <FavoriteIcon />
-                                    </IconButton>
-                                    <Button variant="contained" sx={{ mr: 2, p: 2 }} onClick={() => handleDeleteUser(item)}>
-                                        <FaTrashAlt className="text-red-600" />
-                                    </Button>
+                                <Link to={`update/${item._id}`}>
+                                    <Button variant="outlined" fullWidth><FaAngleDoubleUp></FaAngleDoubleUp></Button>
+                                    </Link>
                                 </CardActions>
+
                             </Card>
                         </Box>
                     </Grid>

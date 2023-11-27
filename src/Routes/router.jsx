@@ -12,6 +12,8 @@ import PostSurvey from '../Pages/DashBoard/PostSurvey';
 import Users from '../Pages/DashBoard/Users';
 import MySurvey from '../Pages/DashBoard/mysurvey';
 import SurveyDetails from '../Pages/Surveys/SurveyDetails';
+import ManageSurvey from '../Pages/DashBoard/ManageSurvey';
+import UpdateSurvey from '../Pages/DashBoard/UpdateSurvey';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -57,14 +59,22 @@ const router = createBrowserRouter([
                 element:<PostSurvey></PostSurvey>
             },
             {
-                path:'/dashboard/users',
-                element:<Users></Users>
-            },
-            {
                 path:'/dashboard/mysurvey',
                 element:<MySurvey></MySurvey>
             },
-            
+            {
+                path: '/dashboard/mysurvey/update/:id',
+                element: <UpdateSurvey></UpdateSurvey>
+            },
+            // ADMIN
+            {
+                path:'/dashboard/managesurvey',
+                element:<ManageSurvey></ManageSurvey>
+            },
+            {
+                path:'/dashboard/users',
+                element:<Users></Users>
+            },
         ]
     }
 ])

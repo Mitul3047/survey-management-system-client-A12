@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Link } from 'react-router-dom';
 
 const ProUserModal = ({ open, handleClose }) => {
   const isLargeScreen = useMediaQuery('(min-width:1280px)');
@@ -45,7 +46,17 @@ const ProUserModal = ({ open, handleClose }) => {
           <Typography id="pro-user-modal-description" sx={{ mt: 2, color: '#457b9d' }}>
             Upgrade to unlock premium features!
           </Typography>
-          <Button variant="contained" sx={{ mt: 3, background: "#1d3557" }} onClick={handleClose}>
+
+          <Typography variant='h4' id="pro-user-modal-rate" sx={{ mt: 2, color: '#1d3557', fontWeight: "'bold" }}>
+            $30/<small>month</small>
+          </Typography>
+
+          <Button
+            variant="contained"
+            sx={{ mt: 3, background: "#1d3557" }}
+            component={Link} // Use React Router's Link component
+            to="/payment" // Specify the route you want to navigate to
+          >
             Upgrade Now
           </Button>
         </Box>
