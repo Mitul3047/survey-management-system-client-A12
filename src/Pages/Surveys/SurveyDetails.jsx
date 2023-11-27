@@ -24,7 +24,8 @@ import useAuth from '../../Hooks/useAuth';
 import useUser from '../../Hooks/useUser';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-import Comments from '../../Components/Comments';
+import Votes from '../../Components/Votes';
+// import Chart from '../../Components/Chart';
 // import Comments from '../../Components/Comments';
 
 const SurveyDetails = () => {
@@ -34,14 +35,15 @@ const SurveyDetails = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedSurvey, setSelectedSurvey] = useState(null);
     const [selectedValue, setSelectedValue] = useState(null);
-    const [comment, setComment] = useState('');
+    const [vots, setVots] = useState('');
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
     // eslint-disable-next-line no-unused-vars
     const [users, , refetch] = useUser();
-
+    const [comments, setComments] = useState([]);
     const filterUser = users.filter((survey) => survey?.email === user?.email);
     const proUserTrue = filterUser[0]?.proUser;
-    const axiosSecure = useAxiosSecure();
+    
 
     useEffect(() => {
         const fetchSurveyDetails = async () => {
@@ -92,11 +94,12 @@ const SurveyDetails = () => {
             try {
                 const postData = {
                     selectedValue: selectedValue,
-                    comment: comment,
+                    comment: vots,
                     email: user?.email,
                     name: user?.displayName,
                     photo: user?.photoURL,
-                    time: new Date()
+                    time: new Date(),
+                    surveyId: id
 
                     // Include other necessary data to be sent to the backend
                 };
@@ -127,10 +130,10 @@ const SurveyDetails = () => {
     };
 
     const handleCommentChange = (event) => {
-        setComment(event.target.value);
+        setVots(event.target.value);
     };
 
-    const [comments, setComments] = useState([]);
+
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -146,7 +149,7 @@ const SurveyDetails = () => {
         fetchComments();
     }, [axiosSecure]);
 
-    console.log(comments);
+console.log(comments);
 
     return (
         <Box sx={{ mb: 10 }}>
@@ -212,7 +215,7 @@ const SurveyDetails = () => {
                                     rows={2}
                                     sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
                                     variant="outlined"
-                                    value={comment}
+                                    value={vots}
                                     onChange={handleCommentChange}
                                 />
                             ) : (
@@ -223,7 +226,7 @@ const SurveyDetails = () => {
                                     rows={2}
                                     sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
                                     variant="outlined"
-                                    value={comment}
+                                    value={vots}
                                     onChange={handleCommentChange}
                                     disabled
                                 />
@@ -232,12 +235,12 @@ const SurveyDetails = () => {
                                 Submit
                             </Button>
                         </CardActions>
-                        <Comments comments={comments}></Comments>
+                        <Votes id={id}></Votes>
                     </Card>
                     
                 </Box>
             )}
-            
+           
         </Box>
     );
 };
