@@ -9,12 +9,14 @@ import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAuth from '../Hooks/useAuth';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { signIn } = useAuth()
+  const { signIn, googleSignIn } = useAuth()
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosPublic = useAxiosPublic();
 
   const from = location.state?.from?.pathname || "/";
   console.log('state in the location login page', location.state)
@@ -37,6 +39,22 @@ const Login = () => {
         navigate(from, { replace: true });
       })
   };
+
+  const handleGoogleSignIn = () =>{
+    googleSignIn()
+    .then(result =>{
+        console.log(result.user);
+        const userInfo = {
+            email: result.user?.email,
+            name: result.user?.displayName
+        }
+        axiosPublic.post('/users', userInfo)
+        .then(res =>{
+            console.log(res.data);
+            navigate(from, { replace: true });
+        })
+    })
+}
 
   return (
     <Container
@@ -89,11 +107,13 @@ const Login = () => {
           Login
         </Button>
         <Divider sx={{ my: 2, width: '100%' }} />
-        <Button variant="outlined" fullWidth>
+        <Button onClick={handleGoogleSignIn} variant="outlined" fullWidth>
           Login with Google
         </Button>
       </Box>
-      <p><small>Do not have an account? <Link to="/signup">Register</Link></small></p>
+      <Typography component="p" variant="body2">
+        <small>Do not have an account? <Link to="/signup">Register</Link></small>
+      </Typography>
     </Container>
   );
 };

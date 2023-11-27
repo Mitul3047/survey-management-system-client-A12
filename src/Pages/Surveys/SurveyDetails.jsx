@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import {
     Box,
     Card,
@@ -16,10 +16,14 @@ import {
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { red } from '@mui/material/colors';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import TimeAgo from '../../Components/TimeAgo';
+import useAuth from '../../Hooks/useAuth';
+import useUser from '../../Hooks/useUser';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const SurveyDetails = () => {
     const { id } = useParams();
@@ -29,6 +33,13 @@ const SurveyDetails = () => {
     const [selectedSurvey, setSelectedSurvey] = useState(null);
     const [selectedValue, setSelectedValue] = useState(null);
     const [comment, setComment] = useState('');
+    const { user } = useAuth();
+    // eslint-disable-next-line no-unused-vars
+    const [users, , refetch] = useUser();
+
+    const filterUser = users.filter((survey) => survey?.email === user?.email);
+    const proUserTrue = filterUser[0]?.proUser;
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
         const fetchSurveyDetails = async () => {
@@ -60,14 +71,52 @@ const SurveyDetails = () => {
         handleClose();
     };
 
-    const handleSubmission = () => {
+    // const handleSubmission = () => {
+    //     if (!selectedValue) {
+    //         alert('Please select an option.'); // Alert if no radio button is selected
+    //     } else {
+    //         console.log('Selected value:', selectedValue);
+    //         console.log('Comment:', comment);
+    //         axiosSecure.post('/vote');
+    //         alert('Submitted!');
+    //         // Perform submission logic here if needed
+    //     }
+    // };
+
+    const handleSubmission = async () => {
         if (!selectedValue) {
             alert('Please select an option.'); // Alert if no radio button is selected
         } else {
-            console.log('Selected value:', selectedValue);
-            console.log('Comment:', comment);
-            alert('Submitted!');
-            // Perform submission logic here if needed
+            try {
+                const postData = {
+                    selectedValue: selectedValue,
+                    comment: comment,
+                    email: user?.email,
+                    name: user?.displayName,
+                    photo: user?.photoURL,
+                    time: new Date()
+
+                    // Include other necessary data to be sent to the backend
+                };
+
+                // Assuming axiosSecure is an Axios instance
+                const response = await axiosSecure.post('/vote', postData);
+
+                console.log('Server response:', response.data); // Log the response from the server
+
+                if (response.data.insertedId) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: `Voted successfully.`,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+                // Perform submission logic here if needed
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                // Handle error scenarios if the POST request fails
+            }
         }
     };
 
@@ -125,21 +174,40 @@ const SurveyDetails = () => {
                                 />
                                 <Typography variant="body1">No</Typography>
                             </Box>
+                            <Box sx={{ display: 'flex' }}>
+                                <Typography>Be a pro user to Comment</Typography>
+                                <Typography variant="body1" sx={{ color: 'red' }}>*</Typography>
+                            </Box>
                         </CardContent>
                         <CardActions disableSpacing>
                             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                                 <MenuItem onClick={handleReport}>Report</MenuItem>
                             </Menu>
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Comment..."
-                                multiline
-                                rows={2}
-                                sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
-                                variant="outlined"
-                                value={comment}
-                                onChange={handleCommentChange}
-                            />
+
+                            {proUserTrue ? (
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Comment..."
+                                    multiline
+                                    rows={2}
+                                    sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
+                                    variant="outlined"
+                                    value={comment}
+                                    onChange={handleCommentChange}
+                                />
+                            ) : (
+                                <TextField
+                                    id="outlined-multiline-static"
+                                    label="Comment..."
+                                    multiline
+                                    rows={2}
+                                    sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
+                                    variant="outlined"
+                                    value={comment}
+                                    onChange={handleCommentChange}
+                                    disabled
+                                />
+                            )}
                             <Button variant="contained" onClick={handleSubmission}>
                                 Submit
                             </Button>

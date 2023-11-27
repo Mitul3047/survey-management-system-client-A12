@@ -66,7 +66,7 @@ const SignUp = () => {
                 height: '100vh',
                 margin: '0 auto',
             }}>
-            <Typography variant="h4" gutterBottom sx={{color : '#457b9d'}}>
+            <Typography variant="h4" gutterBottom sx={{ color: '#457b9d' }}>
                 Sign up now!
             </Typography>
             <Box
@@ -126,7 +126,10 @@ const SignUp = () => {
                     Sign Up
                 </Button>
             </Box>
-            <p><small>Already have an account? <Link to="/login">Login</Link></small></p>
+            <Typography component="p" variant="body2">
+                <small>Already have an account?<Link to="/login">Login</Link></small>
+            </Typography>
+            {/* <p><small> <Link to="/login">Login</Link></small></p> */}
             {/* <SocialLogin /> */}
         </Container>
     );

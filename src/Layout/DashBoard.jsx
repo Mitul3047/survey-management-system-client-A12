@@ -4,7 +4,7 @@ import { Box,  Divider, List, ListItem, ListItemButton, ListItemText,  } from '@
 import {  Outlet, NavLink } from 'react-router-dom';
 const fixedNavItems = [
     { name: 'Home', path: '/' },
-    { name: 'Surveys', path: '/surveys' },
+    // { name: 'Surveys', path: '/surveys' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
     // { name: 'Login', path: '/login' },
@@ -12,7 +12,7 @@ const fixedNavItems = [
 const NavItems = [
     { name: 'Post Survey', path: '/dashboard/postSurvey' },
     { name: 'My Survey', path: '/dashboard/mysurvey' },
-    { name: 'Users', path: '/dashboard/users' },
+    { name: 'Manage Users', path: '/dashboard/users' },
     { name: 'Manage Surveys', path: '/dashboard/managesurvey' },
     // { name: 'Contact', path: '/contact' },
     // { name: 'Login', path: '/login' },

@@ -5,12 +5,14 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useAuth from "../Hooks/useAuth";
-import useSurveys from "../Hooks/useSurveys";
+// import useSurveys from "../Hooks/useSurveys";
 import moment from "moment/moment";
+import useUser from "../Hooks/useUser";
 
 
 const CheckoutForm = () => {
-    const [, , refetch] = useSurveys();
+    const [users, , refetch] = useUser();
+    console.log(users);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('')
     const [transactionId, setTransactionId] = useState('');
@@ -18,9 +20,13 @@ const CheckoutForm = () => {
     const elements = useElements();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-    console.log(user);
+    console.log(user?.email);
     // const [cart, refetch] = useCart();
     const navigate = useNavigate();
+
+    const filterUser = users.filter(survey => survey?.email === user?.email)
+    console.log('fghj',filterUser[0]?.email);
+    const userId = filterUser[0]?._id
 
     const totalPrice = 30
 
@@ -35,33 +41,110 @@ const CheckoutForm = () => {
 
     }, [axiosSecure, totalPrice])
 
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     if (!stripe || !elements) {
+    //         return
+    //     }
+
+    //     const card = elements.getElement(CardElement)
+
+    //     if (card === null) {
+    //         return
+    //     }
+
+    //     const { error, paymentMethod } = await stripe.createPaymentMethod({
+    //         type: 'card',
+    //         card
+    //     })
+
+    //     if (error) {
+    //         console.log('payment error', error);
+    //         setError(error.message);
+    //     }
+    //     else {
+    //         console.log('payment method', paymentMethod)
+    //         setError('');
+    //     }
+
+    //     // confirm payment
+    //     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+    //         payment_method: {
+    //             card: card,
+    //             billing_details: {
+    //                 email: user?.email || 'anonymous',
+    //                 name: user?.displayName || 'anonymous'
+    //             }
+    //         }
+    //     })
+
+    //     if (confirmError) {
+    //         console.log('confirm error')
+    //     }
+    //     else {
+    //         console.log('payment intent', paymentIntent)
+    //         if (paymentIntent.status === 'succeeded') {
+    //             console.log('transaction id', paymentIntent.id);
+    //             setTransactionId(paymentIntent.id);
+
+    //             // now save the payment in the database
+    //             const payment = {
+    //                 email: user.email,
+    //                 name: user?.displayName,
+    //                 photo: user?.photoURL,
+
+    //                 transactionId: paymentIntent.id,
+    //                 date: moment().utc().toDate(),
+
+    //                 proUser: true
+    //             }
+
+    //             const res = await axiosSecure.post('/payments', payment);
+    //             console.log('payment saved', res.data);
+    //             refetch();
+    //             if (res.data?.insertedId) {
+    //                 Swal.fire({
+                        
+    //                     icon: "success",
+    //                     title: "Thank you for the taka paisa",
+    //                     showConfirmButton: false,
+    //                     timer: 1500
+    //                 });
+    //                 navigate('/surveys')
+    //             }
+
+    //         }
+    //     }
+
+    // }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         if (!stripe || !elements) {
-            return
+            return;
         }
-
-        const card = elements.getElement(CardElement)
-
+    
+        const card = elements.getElement(CardElement);
+    
         if (card === null) {
-            return
+            return;
         }
-
+    
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
-        })
-
+        });
+    
         if (error) {
             console.log('payment error', error);
             setError(error.message);
-        }
-        else {
-            console.log('payment method', paymentMethod)
+        } else {
+            console.log('payment method', paymentMethod);
             setError('');
         }
-
+    
         // confirm payment
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -71,48 +154,65 @@ const CheckoutForm = () => {
                     name: user?.displayName || 'anonymous'
                 }
             }
-        })
-
+        });
+    
         if (confirmError) {
-            console.log('confirm error')
-        }
-        else {
-            console.log('payment intent', paymentIntent)
+            console.log('confirm error:', confirmError);
+        } else {
+            console.log('payment intent:', paymentIntent);
             if (paymentIntent.status === 'succeeded') {
-                console.log('transaction id', paymentIntent.id);
+                console.log('transaction id:', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
-
-                // now save the payment in the database
+    
+                // Save the payment in the database
                 const payment = {
                     email: user.email,
                     name: user?.displayName,
                     photo: user?.photoURL,
-
+    
                     transactionId: paymentIntent.id,
                     date: moment().utc().toDate(),
-
+    
                     proUser: true
-                }
-
+                };
+    
                 const res = await axiosSecure.post('/payments', payment);
-                console.log('payment saved', res.data);
+                console.log('payment saved:', res.data);
                 refetch();
+    
                 if (res.data?.insertedId) {
+                    // Update user status to 'pro user'
+                    axiosSecure.patch(`/users/prouser/${userId}`)
+                        .then(updateRes => {
+                            console.log(updateRes.data);
+                            if (updateRes.data.modifiedCount > 0) {
+                                refetch();
+                                Swal.fire({
+                                    icon: "success",
+                                    title: `${user.name} is an Admin Now!`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            // Handle error if the user update fails
+                            console.error("Error updating user status:", err);
+                        });
+    
+                    // Show success message and navigate
                     Swal.fire({
-                        
                         icon: "success",
-                        title: "Thank you for the taka paisa",
+                        title: "Thank you for the payment!",
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    navigate('/surveys')
+                    navigate('/surveys');
                 }
-
             }
         }
-
-    }
-
+    };
+    
     return (
         <form onSubmit={handleSubmit}>
             <CardElement

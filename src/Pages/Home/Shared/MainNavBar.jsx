@@ -29,7 +29,7 @@ const navItems = [
 ];
 
 function MainNavbar(props) {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -49,6 +49,13 @@ function MainNavbar(props) {
   const handleAvatarClose = () => {
     setAnchorEl(null);
   };
+
+
+  const handleLogOut = () => {
+    logOut()
+        .then(() => { })
+        .catch(error => console.log(error));
+}
 
   const avatarMenu = (
     <Menu
@@ -76,7 +83,7 @@ function MainNavbar(props) {
           </Button>
 
       </MenuItem>
-      <MenuItem sx={{ px: 4,}}>Logout</MenuItem>
+      <MenuItem  onClick={handleLogOut} sx={{ px: 4,}}>Logout</MenuItem>
     </Menu>
   );
 

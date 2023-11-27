@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import { FaTrashAlt, FaUsers, FaBookOpen } from "react-icons/fa";
+import { FaTrashAlt, FaUsers, FaBookOpen, FaChild } from "react-icons/fa";
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
@@ -75,13 +75,16 @@ const Users = () => {
 
     return (
         <Box >
-            <SectionTitle heading={"Users List"} />
+            <SectionTitle heading={"Manager user"} />
             <Box sx={{width: '95%', margin:'auto'}}>
-            <Box sx={{display:"flex", gap: 2, justifyContent:"end",mb:2}}>
-                <Typography><FaUsers /> User</Typography>
+            <Typography><FaChild />User</Typography>
+            <Box>
+                <Box sx={{display:"flex", gap: 2, justifyContent:"end",mb:2}}>
+                <Typography><FaUsers /> Admin</Typography>
                 <Typography><FaBookOpen /> Surveyor</Typography>
                 <Typography><FaTrashAlt /> Delete</Typography></Box>
             <Box>
+            </Box>
                 {users.map((user) => (
                     <Box key={user._id} display="flex" alignItems="center" justifyContent="space-between" marginBottom={1}>
                         <h3>{user.name}</h3>
