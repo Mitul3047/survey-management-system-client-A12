@@ -4,7 +4,7 @@ import TimeAgo from "./TimeAgo";
 import useVote from "../Hooks/useVote";
 
 const Votes = ({ id }) => {
-    console.log("id",typeof(id))
+    console.log(id);
     const [votes, loading, refetch] = useVote()
 
 
