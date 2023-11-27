@@ -1,5 +1,8 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+
+
 const TimeAgo = ({ timestamp }) => {
   const [timeAgo, setTimeAgo] = useState('');
 

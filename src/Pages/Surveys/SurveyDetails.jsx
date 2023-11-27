@@ -24,6 +24,8 @@ import useAuth from '../../Hooks/useAuth';
 import useUser from '../../Hooks/useUser';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import Comments from '../../Components/Comments';
+// import Comments from '../../Components/Comments';
 
 const SurveyDetails = () => {
     const { id } = useParams();
@@ -128,6 +130,24 @@ const SurveyDetails = () => {
         setComment(event.target.value);
     };
 
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await axiosSecure.get('/vote'); // Assuming the endpoint is '/comments'
+                setComments(response.data); // Assuming comments are within response.data
+            } catch (error) {
+                // Handle error, e.g., log it or show a message to the user
+                console.error("Error fetching comments:", error);
+            }
+        };
+
+        fetchComments();
+    }, [axiosSecure]);
+
+    console.log(comments);
+
     return (
         <Box sx={{ mb: 10 }}>
             <SectionTitle heading={'Survey Details'} />
@@ -212,9 +232,12 @@ const SurveyDetails = () => {
                                 Submit
                             </Button>
                         </CardActions>
+                        <Comments comments={comments}></Comments>
                     </Card>
+                    
                 </Box>
             )}
+            
         </Box>
     );
 };
