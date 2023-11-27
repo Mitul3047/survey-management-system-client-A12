@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { FaTrashAlt, FaUsers, FaBookOpen } from "react-icons/fa";
@@ -74,29 +74,36 @@ const Users = () => {
     }
 
     return (
-        <Box>
+        <Box >
             <SectionTitle heading={"Users List"} />
+            <Box sx={{width: '95%', margin:'auto'}}>
+            <Box sx={{display:"flex", gap: 2, justifyContent:"end",mb:2}}>
+                <Typography><FaUsers /> User</Typography>
+                <Typography><FaBookOpen /> Surveyor</Typography>
+                <Typography><FaTrashAlt /> Delete</Typography></Box>
             <Box>
                 {users.map((user) => (
                     <Box key={user._id} display="flex" alignItems="center" justifyContent="space-between" marginBottom={1}>
                         <h3>{user.name}</h3>
                         <Box>
                             {
-                                user.admin === true ? <Button sx={{  mr: 2, p: 2 }} variant='outlined' disabled><FaUsers /></Button>
+                                user.admin === true ? <Button sx={{ mr: 2, p: 2 }} variant='outlined' disabled><FaUsers /></Button>
                                     :
-                                    <Button variant="contained" sx={{ p:2 }} color="primary" onClick={() => handleMakeAdmin(user)} ><FaUsers /></Button>
+                                    <Button variant="contained" sx={{ p: 2 }} color="primary" onClick={() => handleMakeAdmin(user)} ><FaUsers /></Button>
                             }
                             {
                                 user.surveyor === true ? <Button sx={{ mr: 2, p: 2 }} variant='outlined' disabled><FaBookOpen /></Button>
                                     :
                                     <Button variant="contained" sx={{ ml: 2, mr: 2, p: 2 }} color="secondary" onClick={() => handleMakeSurveyor(user)} ><FaBookOpen /></Button>
                             }
-                            <Button variant="contained" sx={{ mr: 2, p: 2 }} onClick={() => handleDeleteUser(user)}> <FaTrashAlt className="text-red-600"></FaTrashAlt></Button>
-                            
+                            <Button variant="contained" sx={{  p: 2 }} onClick={() => handleDeleteUser(user)}> <FaTrashAlt className="text-red-600"></FaTrashAlt></Button>
+
                         </Box>
                     </Box>
                 ))}
             </Box>
+            </Box>
+
         </Box>
     );
 };

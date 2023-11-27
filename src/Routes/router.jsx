@@ -14,6 +14,7 @@ import MySurvey from '../Pages/DashBoard/mysurvey';
 import SurveyDetails from '../Pages/Surveys/SurveyDetails';
 import ManageSurvey from '../Pages/DashBoard/ManageSurvey';
 import UpdateSurvey from '../Pages/DashBoard/UpdateSurvey';
+import Payment from '../Pages/Payment';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
                 
             },
             {
+                path: "/payment",
+                element: <Payment></Payment>,
+                
+            },
+            {
                 path: "/login",
                 element: <Login></Login>
             },
@@ -43,10 +49,7 @@ const router = createBrowserRouter([
                 path: "/signup",
                 element: <SignUp></SignUp>
             },
-            {
-                path: "/login",
-                element: <Login></Login>
-            },
+
         ]
     },
     {

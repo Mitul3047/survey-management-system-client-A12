@@ -16,6 +16,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SectionTitle from "../../Components/Utiles/SetTheme/SectionTitle/SectionTitle";
 import { Link } from 'react-router-dom';
+import TimeAgo from '../../Components/TimeAgo';
 
 const Surveys = () => {
     const [surveys] = useSurveys();
@@ -40,7 +41,7 @@ const Surveys = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{ mb: 10 }}>
             <SectionTitle heading={"surveys"}></SectionTitle>
             <Grid container sx={{ width: '70%', margin: "auto", mt: 6 }} spacing={2}>
                 {surveys.map((item) => (
@@ -50,7 +51,7 @@ const Surveys = () => {
                                 <CardHeader
                                     avatar={
                                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={item?.photo}>
-                                            
+
                                         </Avatar>
                                     }
                                     action={
@@ -59,10 +60,10 @@ const Surveys = () => {
                                         </IconButton>
                                     }
                                     title={item.name} // Replace with your survey title data
-                                    subheader={item.date} // Replace with your survey date data
+                                    subheader={<TimeAgo timestamp={item?.time} />} // Replace with your survey date data
                                 />
                                 <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="body2" color="text.secondary" sx={{ height: 180 }}>
                                         {item.description} {/* Replace with your survey description data */}
                                     </Typography>
                                 </CardContent>

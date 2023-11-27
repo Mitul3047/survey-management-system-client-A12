@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import { Container, Avatar, Menu, MenuItem } from '@mui/material';
 import ProUserModal from './ProUserModal';
 import useAuth from '../../../Hooks/useAuth';
+import { red } from '@mui/material/colors';
 
 const drawerWidth = 240;
 const navItems = [
@@ -60,20 +61,22 @@ function MainNavbar(props) {
       <MenuItem sx={{ px: 4 }}>{user?.email}</MenuItem>
       <Divider />
       <MenuItem sx={{ px: 4 }}>
-        <Link to={'/dashboard'}>
-          <Button fullWidth variant="outlined">
+ 
+          <Button fullWidth variant="outlined" 
+          component={Link}
+          to='/dashboard'>
             Dashboard
           </Button>
-        </Link>
+
       </MenuItem>
       <MenuItem sx={{ px: 4 }}>
-        <Link to="#">
+
           <Button fullWidth onClick={handleOpen} variant="outlined">
             Be A Pro User
           </Button>
-        </Link>
+
       </MenuItem>
-      <MenuItem sx={{ px: 4 }}>Logout</MenuItem>
+      <MenuItem sx={{ px: 4,}}>Logout</MenuItem>
     </Menu>
   );
 
@@ -121,14 +124,15 @@ function MainNavbar(props) {
             >
               SURVEY
             </Typography>
-            {user && (
+            {
+            user && (
               <Avatar
-                alt="User Avatar"
+              sx={{ bgcolor: red[500], cursor: 'pointer', ml: 2 }}  
                 src={user?.photoURL} // Assuming user.photoURL holds the image URL
-                sx={{ cursor: 'pointer', ml: 2 }}
                 onClick={handleAvatarClick}
               />
-            )}
+            )
+            }
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               {navItems.map((item) => (
                 <Button key={item.name} sx={{ color: '#fff' }}>
