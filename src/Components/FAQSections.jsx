@@ -1,8 +1,11 @@
-
-import { makeStyles } from '@material-ui/core/styles';
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import './styles.css';
+import { Box } from '@mui/material';
+import SectionTitle from './Utiles/SetTheme/SectionTitle/SectionTitle';
 const faqData = [
   {
     question: 'How can I participate in surveys?',
@@ -23,54 +26,26 @@ const faqData = [
   // Add more FAQ items as needed
 ];
 
-const useStyles = makeStyles((theme) => ({
-  faqSection: {
-    width: '100%',
-    maxWidth: 800,
-    margin: 'auto',
-    padding: theme.spacing(4),
-  },
-  accordion: {
-    marginBottom: theme.spacing(4),
-    boxShadow: 'none',
-    '&:before': {
-      display: 'none',
-    },
-  },
-  accordionSummary: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    '&:hover': {
-      backgroundColor: theme.palette.primary.dark,
-    },
-  },
-  accordionDetails: {
-    padding: theme.spacing(2),
-    backgroundColor: '#f5f5f5',
-  },
-}));
-
 const FAQSection = () => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.faqSection}>
+    <Box className="faqSection">
+      <SectionTitle heading={'FAQ'}></SectionTitle>
       {faqData.map((faq, index) => (
-        <Accordion key={index} className={classes.accordion}>
+        <Accordion key={index} className="accordion">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            className={classes.accordionSummary}
+            className="accordionSummary"
             aria-controls={`panel${index}-content`}
             id={`panel${index}-header`}
           >
             <Typography variant="subtitle1">{faq.question}</Typography>
           </AccordionSummary>
-          <AccordionDetails className={classes.accordionDetails}>
+          <AccordionDetails className="accordionDetails">
             <Typography variant="body1">{faq.answer}</Typography>
           </AccordionDetails>
         </Accordion>
       ))}
-    </div>
+    </Box>
   );
 };
 

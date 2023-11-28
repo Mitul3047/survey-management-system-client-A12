@@ -4,6 +4,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAuth from '../../Hooks/useAuth';
+import moment from 'moment';
 
 const PostSurvey = () => {
     const axiosSecure = useAxiosSecure();
@@ -19,7 +20,8 @@ const PostSurvey = () => {
         category: '',
         like: 0,
         dislike: 0,
-        time: new Date(),
+        time: moment.utc().utcOffset('+06:00').format('YYYY-MM-DD HH:mm'),
+
         status: "pending"
     });
 

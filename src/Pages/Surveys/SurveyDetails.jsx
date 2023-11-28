@@ -75,60 +75,62 @@ const SurveyDetails = () => {
         setSelectedSurvey(null);
     };
 
-    const handleReport = () => {
+    console.log(selectedSurvey);
+
+    const handleReport = (selectedSurvey) => {
         console.log(`Report survey ID: ${selectedSurvey._id}`);
+        axiosSecure
+            .patch(`/surveys/report/${selectedSurvey._id}`)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        icon: "success",
+                        title: `Survey has been reported!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: `Failed to report survey.`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error reporting survey:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: `Failed to report survey.`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
         handleClose();
     };
-
-    // const handleSubmission = () => {
-    //     if (!selectedValue) {
-    //         alert('Please select an option.'); // Alert if no radio button is selected
-    //     } else {
-    //         console.log('Selected value:', selectedValue);
-    //         console.log('Comment:', comment);
-    //         axiosSecure.post('/vote');
-    //         alert('Submitted!');
-    //         // Perform submission logic here if needed
-    //     }
-    // };
-
-    // const handleSubmission = async () => {
-    //     if (!selectedValue) {
-    //         alert('Please select an option.'); // Alert if no radio button is selected
-    //     } else {
-    //         try {
-    //             const postData = {
-    //                 selectedValue: selectedValue,
-    //                 comment: vots,
-    //                 email: user?.email,
-    //                 name: user?.displayName,
-    //                 photo: user?.photoURL,
-    //                 time: new Date(),
-    //                 surveyId: id
-
-    //                 // Include other necessary data to be sent to the backend
-    //             };
-
-    //             // Assuming axiosSecure is an Axios instance
-    //             const response = await axiosSecure.post('/vote', postData);
-
-    //             console.log('Server response:', response.data); // Log the response from the server
-
-    //             if (response.data.insertedId) {
-    //                 Swal.fire({
-    //                     icon: 'success',
-    //                     title: `Voted successfully.`,
-    //                     showConfirmButton: false,
-    //                     timer: 1500,
-    //                 });
-    //             }
-    //             // Perform submission logic here if needed
-    //         } catch (error) {
-    //             console.error('Error submitting data:', error);
-    //             // Handle error scenarios if the POST request fails
+    
+    // const handleReport = () => {
+    //     console.log(`Report survey ID: ${selectedSurvey._id}`);
+    //     axiosSecure.patch(`/vote/report/${selectedSurvey._id}`)
+    //     .then(res => {
+    //         console.log(res.data);
+    //         if (res.data.modifiedCount > 0) {
+    //             refetch();
+    //             Swal.fire({
+    //                 icon: "success",
+    //                 title: `has been reported!`,
+    //                 showConfirmButton: false,
+    //                 timer: 1500
+    //             });
     //         }
-    //     }
+    //     });
+    //     handleClose();
     // };
+
+ 
 
     const handleSubmission = async () => {
         if (!selectedValue) {
@@ -223,6 +225,7 @@ const SurveyDetails = () => {
 
     console.log(comments);
 
+  
     return (
         <Box sx={{ mb: 10 }}>
             <SectionTitle heading={'Survey Details'} />
@@ -276,7 +279,8 @@ const SurveyDetails = () => {
                         </CardContent>
                         <CardActions disableSpacing>
                             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                                <MenuItem onClick={handleReport}>Report</MenuItem>
+                                <MenuItem onClick={()=>handleReport(selectedSurvey)}>Report</MenuItem>
+                                {/* onClick={() => handleMakeAdmin(user)}  */}
                             </Menu>
 
                             {proUserTrue ? (
