@@ -1,6 +1,6 @@
 
 import FAQSection from "../../Components/FAQSections";
-// import HowItWorksSection from "../../Components/HowItWorksSection";
+import HowItWorksSection from "../../Components/HowItWorksSection";
 import NewlyPosted from "../../Components/NewlyPosted";
 import SetHemlet from "../../Components/SetHemlet";
 import Banner from "./Shared/Banner";
@@ -13,9 +13,9 @@ const Home = () => {
         <div >
            <SetHemlet page={'Home'}></SetHemlet>
            <Banner></Banner>
-           {/* <HowItWorksSection></HowItWorksSection> */}
-           <Testimonials></Testimonials>
            <NewlyPosted></NewlyPosted>
+           <Testimonials></Testimonials>
+           <HowItWorksSection></HowItWorksSection>
            <FAQSection></FAQSection>
         </div>
     );

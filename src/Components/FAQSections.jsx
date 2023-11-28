@@ -28,7 +28,7 @@ const faqData = [
 
 const FAQSection = () => {
   return (
-    <Box className="faqSection">
+    <Box className="faqSection" mb={8}>
       <SectionTitle heading={'FAQ'}></SectionTitle>
       {faqData.map((faq, index) => (
         <Accordion key={index} className="accordion">

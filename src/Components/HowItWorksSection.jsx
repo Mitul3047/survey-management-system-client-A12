@@ -1,34 +1,8 @@
-
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Paper, Step, StepLabel, Stepper } from '@material-ui/core';
+// import React from 'react';
+import { Paper, Typography, Grid, Step, StepLabel, Stepper } from '@mui/material';
 import SectionTitle from './Utiles/SetTheme/SectionTitle/SectionTitle';
 
-const useStyles = makeStyles((theme) => ({
-  section: {
-    padding: theme.spacing(6),
-    backgroundColor: '#f5f5f5',
-    
-  },
-  title: {
-    marginBottom: theme.spacing(2),
-    fontWeight: 'bold',
-  },
-  stepIcon: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    borderRadius: '50%',
-    width: 40,
-    height: 40,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-}));
-
 const HowItWorksSection = () => {
-  const classes = useStyles();
-
-  // Steps content
   const steps = [
     {
       label: 'Step 1',
@@ -49,16 +23,18 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <Paper className={classes.section}>
-                <SectionTitle heading={'How It Works'}></SectionTitle>
-      <Grid container direction="column" alignItems="center">
+    <Paper sx={{ p: 2, backgroundColor: '#f5f5f5' }}>
+  <SectionTitle heading='How We Work'></SectionTitle>
+      <Grid container direction="column" alignItems="flex-start" width={'80%'} margin={'auto'}>
         <Stepper orientation="vertical">
           {steps.map((step, index) => (
-            <Step key={index}>
-              <StepLabel StepIconProps={{ classes: { root: classes.stepIcon } }}>
-                <Typography variant="h6">{step.label}</Typography>
+            <Step key={index} sx={{ marginBottom: 2 }}>
+              <StepLabel>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  {step.label}
+                </Typography>
+                <Typography>{step.description}</Typography>
               </StepLabel>
-              <Typography>{step.description}</Typography>
             </Step>
           ))}
         </Stepper>

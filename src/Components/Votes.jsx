@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import TimeAgo from "./TimeAgo";
 import useVote from "../Hooks/useVote";
-
+import Charts from "./Charts";
+import PropTypes from 'prop-types';
 const Votes = ({ id }) => {
+  // eslint-disable-next-line no-unused-vars
   const [votes, loading, refetch] = useVote();
 
   // Filter votes based on the provided ID
@@ -14,14 +16,19 @@ const Votes = ({ id }) => {
   const totalYesSelectedValues = filterVote.filter(
     (item) => item.selectedValue === "yes"
   ).length;
-
+console.log(typeof(totalSelectedValues),typeof(totalYesSelectedValues));
   // Refetch votes when the ID changes
   useEffect(() => {
     refetch();
-  }, [id,votes, refetch]);
+  }, [id, votes, refetch]);
 
   return (
-    <Box sx={{ width: "60%", ml: 2, my: 5 }}>
+    <Box sx={{  ml: 2, my: 5 }}>
+      <Box display={'flex'} justifyContent={'center'} gap={4} mb={6}>
+        <Typography variant="h6">Total Vole: {totalSelectedValues}</Typography>
+        <Typography variant="h6"> Yes Count: {totalYesSelectedValues}</Typography>
+        <Typography variant="h6"> No Count: {totalSelectedValues - totalYesSelectedValues}</Typography>
+      </Box>
       <Typography variant="h5">Comments</Typography>
       {/* Display comments */}
       {filterVote.map((vote, index) => (
@@ -46,10 +53,16 @@ const Votes = ({ id }) => {
             </>
           )}
           {/* Add other comment details here */}
+
         </Box>
+
       ))}
+<Charts total={totalSelectedValues} yes={totalYesSelectedValues}></Charts>
     </Box>
   );
 };
 
+Votes.propTypes = {
+  id: PropTypes.string.isRequired, // Assuming id is a required string
+};
 export default Votes;
