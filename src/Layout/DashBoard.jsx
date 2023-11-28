@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { Box, Divider, List, ListItem, ListItemButton, ListItemText, } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
 import useAdmin from '../Hooks/useAdmin';
+import useSurveyor from '../Hooks/useSurveyor';
 const fixedNavItems = [
     { name: 'Home', path: '/' },
 
@@ -21,11 +22,12 @@ const AdminNavItems = [
 const DashBoard = () => {
 
     // const isAdmin = true;
-    const [isAdmin] = useAdmin()
-    const isSurveyor = true;
+    const [isAdmin] = useAdmin();
+    const [isSurveyor]= useSurveyor()
+    // const isSurveyor = true;
     return (
         <Grid container spacing={2}>
-            <Grid item xs={2} sx={{ background: '#1d3557', minHeight: '100vh', p: 6 }}>
+            <Grid item xs={2} sx={{ background: '#1d3557', minHeight: '100vh' }}>
                 <Box sx={{ mt: 10 }}>
 
 
