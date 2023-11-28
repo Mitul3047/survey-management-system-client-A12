@@ -2,6 +2,7 @@
 import Grid from '@mui/material/Grid';
 import { Box, Divider, List, ListItem, ListItemButton, ListItemText, } from '@mui/material';
 import { Outlet, NavLink } from 'react-router-dom';
+import useAdmin from '../Hooks/useAdmin';
 const fixedNavItems = [
     { name: 'Home', path: '/' },
 
@@ -19,7 +20,8 @@ const AdminNavItems = [
 
 const DashBoard = () => {
 
-    const isAdmin = true;
+    // const isAdmin = true;
+    const [isAdmin] = useAdmin()
     const isSurveyor = true;
     return (
         <Grid container spacing={2}>
