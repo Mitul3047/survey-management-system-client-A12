@@ -22,7 +22,7 @@ const Surveys = () => {
     const [surveys] = useSurveys();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedSurvey, setSelectedSurvey] = useState(null);
-
+    const acceptedSurveys = surveys.filter(survey => survey.status === "Accept");
     const handleClick = (event, survey) => {
         setAnchorEl(event.currentTarget);
         setSelectedSurvey(survey);
@@ -44,7 +44,7 @@ const Surveys = () => {
         <Box sx={{ mb: 10 }}>
             <SectionTitle heading={"surveys"}></SectionTitle>
             <Grid container sx={{ width: '70%', margin: "auto", mt: 6 }} spacing={2}>
-                {surveys.map((item) => (
+                {acceptedSurveys.map((item) => (
                     <Grid item key={item._id} xs={12} md={6} lg={4}>
                         <Box>
                             <Card sx={{ maxWidth: 345 }}>

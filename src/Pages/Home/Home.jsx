@@ -1,4 +1,5 @@
 
+import HowItWorksSection from "../../Components/HowItWorksSection";
 import SetHemlet from "../../Components/SetHemlet";
 import Banner from "./Shared/Banner";
 import Testimonials from "./Shared/Testimonials";
@@ -10,6 +11,7 @@ const Home = () => {
         <div >
            <SetHemlet page={'Home'}></SetHemlet>
            <Banner></Banner>
+           <HowItWorksSection></HowItWorksSection>
            <Testimonials></Testimonials>
         </div>
     );

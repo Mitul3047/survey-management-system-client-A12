@@ -56,10 +56,10 @@ const MySurvey = () => {
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     action={
-                                        
-                                            <Button variant="contained" sx={{ mr: 2, p: 2, backgroundColor: 'red' }} onClick={() => handleDeleteUser(item)}>
-                                                <FaTrashAlt className="text-red-600" />
-                                            </Button>
+
+                                        <Button variant="contained" sx={{ mr: 2, p: 2, backgroundColor: 'red' }} onClick={() => handleDeleteUser(item)}>
+                                            <FaTrashAlt className="text-red-600" />
+                                        </Button>
                                     }
                                     title={item.title}
                                     subheader={item.date}
@@ -70,8 +70,8 @@ const MySurvey = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                <Link to={`update/${item._id}`}>
-                                    <Button variant="outlined" fullWidth><FaAngleDoubleUp></FaAngleDoubleUp></Button>
+                                    <Link to={`update/${item._id}`}>
+                                        <Button variant="outlined" fullWidth><FaAngleDoubleUp></FaAngleDoubleUp></Button>
                                     </Link>
                                 </CardActions>
 

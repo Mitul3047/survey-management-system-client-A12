@@ -19,7 +19,8 @@ const PostSurvey = () => {
         category: '',
         like: 0,
         dislike: 0,
-        time: new Date()
+        time: new Date(),
+        status: "pending"
     });
 
     const handleChange = (event) => {

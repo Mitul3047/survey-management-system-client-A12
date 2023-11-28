@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Box,
     Card,
@@ -25,6 +25,8 @@ import useUser from '../../Hooks/useUser';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import Votes from '../../Components/Votes';
+import useVote from '../../Hooks/useVote';
+import moment from 'moment';
 // import Chart from '../../Components/Chart';
 // import Comments from '../../Components/Comments';
 
@@ -43,7 +45,10 @@ const SurveyDetails = () => {
     const [comments, setComments] = useState([]);
     const filterUser = users.filter((survey) => survey?.email === user?.email);
     const proUserTrue = filterUser[0]?.proUser;
-    
+    const [votes] = useVote();
+    const filterVotedSurvey = votes.filter((vote) => vote.surveyId === id)
+    const filtervotedemail = votes.filter((vote) => vote.email === user?.email)
+    console.log("&&",filterVotedSurvey && filtervotedemail);
 
     useEffect(() => {
         const fetchSurveyDetails = async () => {
@@ -87,43 +92,108 @@ const SurveyDetails = () => {
     //     }
     // };
 
+    // const handleSubmission = async () => {
+    //     if (!selectedValue) {
+    //         alert('Please select an option.'); // Alert if no radio button is selected
+    //     } else {
+    //         try {
+    //             const postData = {
+    //                 selectedValue: selectedValue,
+    //                 comment: vots,
+    //                 email: user?.email,
+    //                 name: user?.displayName,
+    //                 photo: user?.photoURL,
+    //                 time: new Date(),
+    //                 surveyId: id
+
+    //                 // Include other necessary data to be sent to the backend
+    //             };
+
+    //             // Assuming axiosSecure is an Axios instance
+    //             const response = await axiosSecure.post('/vote', postData);
+
+    //             console.log('Server response:', response.data); // Log the response from the server
+
+    //             if (response.data.insertedId) {
+    //                 Swal.fire({
+    //                     icon: 'success',
+    //                     title: `Voted successfully.`,
+    //                     showConfirmButton: false,
+    //                     timer: 1500,
+    //                 });
+    //             }
+    //             // Perform submission logic here if needed
+    //         } catch (error) {
+    //             console.error('Error submitting data:', error);
+    //             // Handle error scenarios if the POST request fails
+    //         }
+    //     }
+    // };
+
     const handleSubmission = async () => {
         if (!selectedValue) {
-            alert('Please select an option.'); // Alert if no radio button is selected
+            Swal.fire({
+                icon: 'error',
+                title: `Please Select Your Answer`,
+                showConfirmButton: false,
+                timer: 1500,
+            }); // Alert if no radio button is selected
         } else {
-            try {
-                const postData = {
-                    selectedValue: selectedValue,
-                    comment: vots,
-                    email: user?.email,
-                    name: user?.displayName,
-                    photo: user?.photoURL,
-                    time: new Date(),
-                    surveyId: id
-
-                    // Include other necessary data to be sent to the backend
-                };
-
-                // Assuming axiosSecure is an Axios instance
-                const response = await axiosSecure.post('/vote', postData);
-
-                console.log('Server response:', response.data); // Log the response from the server
-
-                if (response.data.insertedId) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Voted successfully.`,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
+            // Check if the user has already voted for this survey
+            const hasVotedBefore = filterVotedSurvey.length > 0 && filtervotedemail.length > 0;
+    
+            if (hasVotedBefore) {
+                // Show a Swal alert indicating the user has already voted
+                Swal.fire({
+                    icon: 'error',
+                    title: `You have already voted for this survey.`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            } else {
+                try {
+                    const postData = {
+                        selectedValue: selectedValue,
+                        comment: vots,
+                        email: user?.email,
+                        name: user?.displayName,
+                        photo: user?.photoURL,
+                        time: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
+                        surveyId: id,
+                    };
+    
+                    // Assuming axiosSecure is an Axios instance
+                    const response = await axiosSecure.post('/vote', postData);
+    
+                    console.log('Server response:', response.data); // Log the response from the server
+    
+                    if (response.data.insertedId) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: `Voted successfully.`,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        setVots('');
+                    }
+                    // Perform submission logic here if needed
+                } catch (error) {
+                    console.error('Error submitting data:', error);
+                    // Handle error scenarios if the POST request fails
                 }
-                // Perform submission logic here if needed
-            } catch (error) {
-                console.error('Error submitting data:', error);
-                // Handle error scenarios if the POST request fails
             }
         }
     };
+    const handleCommentProUser =()=>{
+        if (!proUserTrue) {
+            return   Swal.fire({
+                icon: 'warning',
+                title: `Upgrade to pro to comment`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    }
 
     const handleRadioChange = (event) => {
         setSelectedValue(event.target.value);
@@ -149,7 +219,7 @@ const SurveyDetails = () => {
         fetchComments();
     }, [axiosSecure]);
 
-console.log(comments);
+    console.log(comments);
 
     return (
         <Box sx={{ mb: 10 }}>
@@ -227,8 +297,8 @@ console.log(comments);
                                     sx={{ width: '80%', gridColumn: 'span 8', mr: 2 }}
                                     variant="outlined"
                                     value={vots}
-                                    onChange={handleCommentChange}
-                                    disabled
+                                    onChange={handleCommentProUser}
+                                    
                                 />
                             )}
                             <Button variant="contained" onClick={handleSubmission}>
@@ -237,10 +307,10 @@ console.log(comments);
                         </CardActions>
                         <Votes id={id}></Votes>
                     </Card>
-                    
+
                 </Box>
             )}
-           
+
         </Box>
     );
 };

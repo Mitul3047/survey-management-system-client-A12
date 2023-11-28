@@ -1,24 +1,24 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import { FaTrashAlt, FaUsers, FaBookOpen, FaChild } from "react-icons/fa";
+import { FaTrashAlt, FaUsers, FaBookOpen, FaChild, FaMailchimp, FaEnvelope, FaDollarSign } from "react-icons/fa";
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
 const Users = () => {
-    const axiosSecure = useAxiosSecure()
+    const axiosSecure = useAxiosSecure();
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users');
             return res.data;
         }
-    })
+    });
 
     const handleMakeAdmin = user => {
         axiosSecure.patch(`/users/admin/${user._id}`)
             .then(res => {
-                console.log(res.data)
+                console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     refetch();
                     Swal.fire({
@@ -28,23 +28,24 @@ const Users = () => {
                         timer: 1500
                     });
                 }
-            })
-    }
+            });
+    };
+
     const handleMakeSurveyor = user => {
         axiosSecure.patch(`/users/surveyor/${user._id}`)
             .then(res => {
-                console.log(res.data)
+                console.log(res.data);
                 if (res.data.modifiedCount > 0) {
                     refetch();
                     Swal.fire({
                         icon: "success",
-                        title: `${user.name} is an Surveyor Now!`,
+                        title: `${user.name} is a Surveyor Now!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
-            })
-    }
+            });
+    };
 
     const handleDeleteUser = user => {
         Swal.fire({
@@ -57,7 +58,6 @@ const Users = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-
                 axiosSecure.delete(`/users/${user._id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
@@ -68,45 +68,58 @@ const Users = () => {
                                 icon: "success"
                             });
                         }
-                    })
+                    });
             }
         });
-    }
+    };
 
     return (
-        <Box >
+        <Box>
             <SectionTitle heading={"Manager user"} />
-            <Box sx={{width: '95%', margin:'auto'}}>
-            <Typography><FaChild />User</Typography>
-            <Box>
-                <Box sx={{display:"flex", gap: 2, justifyContent:"end",mb:2}}>
-                <Typography><FaUsers /> Admin</Typography>
-                <Typography><FaBookOpen /> Surveyor</Typography>
-                <Typography><FaTrashAlt /> Delete</Typography></Box>
-            <Box>
+            <Box sx={{ width: '95%', margin: 'auto' }}>
+                <TableContainer>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell><FaChild /> User</TableCell>
+                                <TableCell><FaEnvelope/> Email</TableCell>
+                                <TableCell align="center"><FaUsers /> Admin</TableCell>
+                                <TableCell align="center"><FaBookOpen /> Surveyor</TableCell>
+                                <TableCell align="center"><FaDollarSign /> Pro User</TableCell>
+                                <TableCell align="center"><FaTrashAlt /> Delete</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {users.map((user) => (
+                                <TableRow key={user._id}>
+                                    <TableCell>{user.name}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell align="center">
+                                        {user.admin ? (
+                                            <Button  variant='outlined' disabled><FaUsers /></Button>
+                                        ) : (
+                                            <Button variant="contained"  color="primary" onClick={() => handleMakeAdmin(user)} ><FaUsers /></Button>
+                                        )}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {user.surveyor ? (
+                                            <Button  variant='outlined' disabled><FaBookOpen /></Button>
+                                        ) : (
+                                            <Button variant="contained"  color="secondary" onClick={() => handleMakeSurveyor(user)} ><FaBookOpen /></Button>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        {user.proUser && <Button  variant='outlined' disabled><FaDollarSign></FaDollarSign></Button>}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button variant="contained"  onClick={() => handleDeleteUser(user)}><FaTrashAlt className="text-red-600" /></Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
-                {users.map((user) => (
-                    <Box key={user._id} display="flex" alignItems="center" justifyContent="space-between" marginBottom={1}>
-                        <h3>{user.name}</h3>
-                        <Box>
-                            {
-                                user.admin === true ? <Button sx={{ mr: 2, p: 2 }} variant='outlined' disabled><FaUsers /></Button>
-                                    :
-                                    <Button variant="contained" sx={{ p: 2 }} color="primary" onClick={() => handleMakeAdmin(user)} ><FaUsers /></Button>
-                            }
-                            {
-                                user.surveyor === true ? <Button sx={{ mr: 2, p: 2 }} variant='outlined' disabled><FaBookOpen /></Button>
-                                    :
-                                    <Button variant="contained" sx={{ ml: 2, mr: 2, p: 2 }} color="secondary" onClick={() => handleMakeSurveyor(user)} ><FaBookOpen /></Button>
-                            }
-                            <Button variant="contained" sx={{  p: 2 }} onClick={() => handleDeleteUser(user)}> <FaTrashAlt className="text-red-600"></FaTrashAlt></Button>
-
-                        </Box>
-                    </Box>
-                ))}
-            </Box>
-            </Box>
-
         </Box>
     );
 };
