@@ -1,10 +1,11 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Paper, Step, StepLabel, Stepper } from '@material-ui/core';
+import SectionTitle from './Utiles/SetTheme/SectionTitle/SectionTitle';
 
 const useStyles = makeStyles((theme) => ({
   section: {
-    padding: theme.spacing(15),
+    padding: theme.spacing(6),
     backgroundColor: '#f5f5f5',
     
   },
@@ -49,10 +50,8 @@ const HowItWorksSection = () => {
 
   return (
     <Paper className={classes.section}>
+                <SectionTitle heading={'How It Works'}></SectionTitle>
       <Grid container direction="column" alignItems="center">
-        <Typography variant="h4" className={classes.title}>
-          How It Works
-        </Typography>
         <Stepper orientation="vertical">
           {steps.map((step, index) => (
             <Step key={index}>

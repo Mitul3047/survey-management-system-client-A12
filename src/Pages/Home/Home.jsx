@@ -1,4 +1,5 @@
 
+import FAQSection from "../../Components/FAQSections";
 import HowItWorksSection from "../../Components/HowItWorksSection";
 import SetHemlet from "../../Components/SetHemlet";
 import Banner from "./Shared/Banner";
@@ -13,6 +14,7 @@ const Home = () => {
            <Banner></Banner>
            <HowItWorksSection></HowItWorksSection>
            <Testimonials></Testimonials>
+           <FAQSection></FAQSection>
         </div>
     );
 };
