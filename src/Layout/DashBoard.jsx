@@ -15,6 +15,8 @@ const SurveyorNavItems = [
 const AdminNavItems = [
     { name: 'Manage Users', path: '/dashboard/users' },
     { name: 'Manage Surveys', path: '/dashboard/managesurvey' },
+    { name: 'Payments', path: '/dashboard/payments' },
+    { name: 'All Votes', path: '/dashboard/allvotes' },
 ];
 
 

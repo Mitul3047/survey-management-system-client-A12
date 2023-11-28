@@ -27,34 +27,46 @@ const Login = () => {
       .then(result => {
         const user = result.user;
         console.log(user);
+        // Swal.fire({
+        //   title: 'User Login Successful.',
+        //   showClass: {
+        //     popup: 'animate__animated animate__fadeInDown'
+        //   },
+        //   hideClass: {
+        //     popup: 'animate__animated animate__fadeOutUp'
+        //   }
+        // });
         Swal.fire({
-          title: 'User Login Successful.',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        });
+          icon: "success",
+          title: `Login Successful`,
+          showConfirmButton: false,
+          timer: 1500
+        })
         navigate(from, { replace: true });
       })
   };
 
-  const handleGoogleSignIn = () =>{
+  const handleGoogleSignIn = () => {
     googleSignIn()
-    .then(result =>{
+      .then(result => {
         console.log(result.user);
         const userInfo = {
-            email: result.user?.email,
-            name: result.user?.displayName
+          email: result.user?.email,
+          name: result.user?.displayName
         }
         axiosPublic.post('/users', userInfo)
-        .then(res =>{
+          .then(res => {
             console.log(res.data);
+            Swal.fire({
+              icon: "success",
+              title: `Login Successful`,
+              showConfirmButton: false,
+              timer: 1500
+            })
             navigate(from, { replace: true });
-        })
-    })
-}
+          })
+      })
+  }
 
   return (
     <Container

@@ -25,7 +25,7 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
 
     const filterUser = users.filter(survey => survey?.email === user?.email)
-    console.log('fghj',filterUser[0]?.email);
+    console.log('fghj', filterUser[0]?.email);
     const userId = filterUser[0]?._id
 
     const totalPrice = 30
@@ -105,7 +105,7 @@ const CheckoutForm = () => {
     //             refetch();
     //             if (res.data?.insertedId) {
     //                 Swal.fire({
-                        
+
     //                     icon: "success",
     //                     title: "Thank you for the taka paisa",
     //                     showConfirmButton: false,
@@ -121,22 +121,22 @@ const CheckoutForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         if (!stripe || !elements) {
             return;
         }
-    
+
         const card = elements.getElement(CardElement);
-    
+
         if (card === null) {
             return;
         }
-    
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
         });
-    
+
         if (error) {
             console.log('payment error', error);
             setError(error.message);
@@ -144,7 +144,7 @@ const CheckoutForm = () => {
             console.log('payment method', paymentMethod);
             setError('');
         }
-    
+
         // confirm payment
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -155,7 +155,7 @@ const CheckoutForm = () => {
                 }
             }
         });
-    
+
         if (confirmError) {
             console.log('confirm error:', confirmError);
         } else {
@@ -163,23 +163,23 @@ const CheckoutForm = () => {
             if (paymentIntent.status === 'succeeded') {
                 console.log('transaction id:', paymentIntent.id);
                 setTransactionId(paymentIntent.id);
-    
+
                 // Save the payment in the database
                 const payment = {
-                    email: user.email,
-                    name: user?.displayName,
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous',
+
                     photo: user?.photoURL,
-    
+
                     transactionId: paymentIntent.id,
-                    date: moment().utc().toDate(),
-    
+                    date: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
                     proUser: true
                 };
-    
+
                 const res = await axiosSecure.post('/payments', payment);
                 console.log('payment saved:', res.data);
                 refetch();
-    
+
                 if (res.data?.insertedId) {
                     // Update user status to 'pro user'
                     axiosSecure.patch(`/users/prouser/${userId}`)
@@ -189,7 +189,7 @@ const CheckoutForm = () => {
                                 refetch();
                                 Swal.fire({
                                     icon: "success",
-                                    title: `${user.name} is an Admin Now!`,
+                                    title: `${user.name}  Pro user Now!`,
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -199,7 +199,7 @@ const CheckoutForm = () => {
                             // Handle error if the user update fails
                             console.error("Error updating user status:", err);
                         });
-    
+
                     // Show success message and navigate
                     Swal.fire({
                         icon: "success",
@@ -212,7 +212,7 @@ const CheckoutForm = () => {
             }
         }
     };
-    
+
     return (
         <form onSubmit={handleSubmit}>
             <CardElement

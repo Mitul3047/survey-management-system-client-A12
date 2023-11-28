@@ -153,13 +153,15 @@ const SurveyDetails = () => {
             } else {
                 try {
                     const postData = {
-                        selectedValue: selectedValue,
-                        comment: vots,
+                        surveyId: id,
+                        surveyDetails: surveyDetails.email,
                         email: user?.email,
                         name: user?.displayName,
                         photo: user?.photoURL,
+                        question: surveyDetails.question1,
+                        selectedValue: selectedValue,
+                        comment: vots,
                         time: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
-                        surveyId: id,
                     };
     
                     // Assuming axiosSecure is an Axios instance
