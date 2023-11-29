@@ -10,10 +10,10 @@ const MainLayout = () => {
         <Grid >
             {/* <Navbar></Navbar> */}
             <MainNavBar></MainNavBar>
-            <Grid sx={{ pt: 8, background:'f1faee'}}>
+            <Grid sx={{ pt: 8, background: 'f1faee' }}>
                 <Outlet></Outlet>
             </Grid>
-<Footer></Footer>
+            <Footer></Footer>
         </Grid>
     );
 };
