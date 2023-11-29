@@ -11,6 +11,7 @@ const fixedNavItems = [
 const SurveyorNavItems = [
     { name: 'Post Survey', path: '/dashboard/postSurvey' },
     { name: 'My Survey', path: '/dashboard/mysurvey' },
+    { name: 'My Survey Vote', path: '/dashboard/mysurvey/vote' },
 ];
 const AdminNavItems = [
     { name: 'Manage Users', path: '/dashboard/users' },

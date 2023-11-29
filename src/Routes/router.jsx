@@ -18,6 +18,7 @@ import Payment from '../Pages/Payment';
 import PrivateRoute from './PrivateRoute';
 import Payments from '../Pages/DashBoard/Payments';
 import AllVotes from '../Pages/DashBoard/AllVotes';
+import SurveyourVote from '../Pages/surveyourVote';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -69,9 +70,15 @@ const router = createBrowserRouter([
                 element:<MySurvey></MySurvey>
             },
             {
-                path: '/dashboard/mysurvey/update/:id',
-                element: <UpdateSurvey></UpdateSurvey>
+                path:'/dashboard/mysurvey/vote',
+                element:<SurveyourVote></SurveyourVote>
             },
+            {
+                path: '/dashboard/mysurvey/update/:id',
+                element: <UpdateSurvey></UpdateSurvey>,
+                loader: ({params}) => fetch(`http://localhost:3000/surveys/${params.id}`)
+            },
+            
             // ADMIN
             {
                 path:'/dashboard/managesurvey',

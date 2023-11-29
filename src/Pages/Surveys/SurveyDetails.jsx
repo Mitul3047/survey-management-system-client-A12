@@ -27,8 +27,6 @@ import Swal from 'sweetalert2';
 import Votes from '../../Components/Votes';
 import useVote from '../../Hooks/useVote';
 import moment from 'moment';
-// import Chart from '../../Components/Chart';
-// import Comments from '../../Components/Comments';
 
 const SurveyDetails = () => {
     const { id } = useParams();
@@ -140,10 +138,10 @@ const SurveyDetails = () => {
                 try {
                     const postData = {
                         surveyId: id,
-                        surveyDetails: surveyDetails.email,
-                        email: user?.email,
+                        surveyourMail: surveyDetails.email,
                         name: user?.displayName,
                         photo: user?.photoURL,
+                        email: user?.email,
                         question: surveyDetails.question1,
                         selectedValue: selectedValue,
                         comment: vots,

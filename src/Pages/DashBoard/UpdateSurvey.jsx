@@ -1,107 +1,101 @@
-import { useState } from 'react';
-import { Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
-import Swal from 'sweetalert2';
+// import useAuth from '../../Hooks/useAuth';
+import { useLoaderData, useParams } from 'react-router-dom';
+import { TextField, Button, Grid } from '@mui/material';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
-import useAuth from '../../Hooks/useAuth';
+import { useState } from 'react';
 
 const UpdateSurvey = () => {
-    const axiosSecure = useAxiosSecure();
-    const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const { id } = useParams();
+//   const { user } = useAuth(); // Assuming useAuth provides user details
 
-    const [surveyData, setSurveyData] = useState({
-        title: '',
-        description: '',
-        question1: '',
-        email: user?.email,
-        name: user?.displayName,
-        photo : user?.photoURL,
-        category: '',
-        like: 0,
-        dislike: 0,
-        time: new Date()
-    });
+  // Assuming useLoaderData provides initial survey data
+  const {  title: initialTitle, description: initialDescription, question1: initialQuestion1, category: initialCategory } = useLoaderData();
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setSurveyData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+  // State to manage form data
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
+  const [question1, setQuestion1] = useState(initialQuestion1);
+  // eslint-disable-next-line no-unused-vars
+  const [category, setCategory] = useState(initialCategory);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        axiosSecure
-            .post('/surveys', surveyData)
-            .then((response) => {
-                console.log(response);
-                if (response.data.insertedId) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Survey is added successfully.`,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error('Error posting survey:', error);
-            });
-    };
+  // Function to handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    return (
-        <Box>
-            <SectionTitle heading={'Post a survey'} />
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Title"
-                    name="title"
-                    value={surveyData.title}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="dense" 
-                />
-                <TextField
-                    label="Description"
-                    name="description"
-                    value={surveyData.description}
-                    onChange={handleChange}
-                    multiline
-                    fullWidth
-                    margin="dense" 
-                />
-                <TextField
-                    label="Question 1 (Yes or No)"
-                    name="question1"
-                    value={surveyData.question1}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="dense" 
-                />
+    try {
+      // Make a PATCH request to update the survey using axiosSecure
+      await axiosSecure.patch(`/surveys/${id}`, {
+        title,
+        description,
+        question1,
+        category,
+        // Any other fields you want to update
+      });
 
-                <FormControl fullWidth margin="dense"> 
-                    <InputLabel>Category</InputLabel>
-                    <Select
-                        name="category"
-                        value={surveyData.category}
-                        onChange={handleChange}
-                        margin="dense" 
-                    >
-                        <MenuItem value="Technology">Technology</MenuItem>
-                        <MenuItem value="Health">Health and Wellness</MenuItem>
-                        <MenuItem value="Education">Education</MenuItem>
-                        <MenuItem value="Food">Food and Dining</MenuItem>
-                        <MenuItem value="Sports">Sports and Fitness</MenuItem>
-                        {/* Add more categories */}
-                    </Select>
-                </FormControl>
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
-            </form>
-        </Box>
-    );
+      // Optionally, you can add logic here to handle success or redirect the user
+      // For example: history.push('/survey-updated');
+    } catch (error) {
+      // Handle error, e.g., show an error message
+      console.error('Error updating survey:', error);
+    }
+  };
+
+  return (
+    <>
+    <SectionTitle heading={'Upadte your Post'}></SectionTitle>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Title"
+            variant="outlined"
+            fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Description"
+            variant="outlined"
+            fullWidth
+            multiline
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Question 1"
+            variant="outlined"
+            fullWidth
+            value={question1}
+            onChange={(e) => setQuestion1(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Category"
+            variant="outlined"
+            fullWidth
+            value={category}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary">
+            Update Survey
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+    </>
+  );
 };
 
 export default UpdateSurvey;

@@ -93,6 +93,7 @@ const ManageSurvey = () => {
                         <TableRow>
                             <TableCell>Title</TableCell>
                             <TableCell>Question</TableCell>
+                            <TableCell sx={{textAlign:'center'}}>Date<br/>YYYY-MM-DD HH:MM</TableCell>
                             <TableCell>Accept</TableCell>
                             <TableCell>Decline</TableCell>
                             <TableCell>Report Status</TableCell>
@@ -105,6 +106,7 @@ const ManageSurvey = () => {
                             <TableRow key={item._id}>
                                 <TableCell>{item.title}</TableCell>
                                 <TableCell>{item.question1}</TableCell>
+                                <TableCell>{item.time}</TableCell>
                                 <TableCell>
                                     {
                                         item.status === "Accept" ? <>

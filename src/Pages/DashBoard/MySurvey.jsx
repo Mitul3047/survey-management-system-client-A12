@@ -1,17 +1,12 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button,  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import useSurveys from "../../Hooks/useSurveys";
 import { FaAngleDoubleUp, FaTrashAlt } from "react-icons/fa";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
 import SectionTitle from "../../Components/Utiles/SetTheme/SectionTitle/SectionTitle";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { IoIosWarning } from "react-icons/io";
 
 const MySurvey = () => {
     const { user } = useAuth();
@@ -49,37 +44,49 @@ const MySurvey = () => {
     return (
         <Box>
             <SectionTitle heading={"my surveys"} />
-            <Grid container sx={{ margin: "auto", mt: 6 }} spacing={2}>
-                {userSurveys.map((item) => (
-                    <Grid item key={item._id} xs={12} md={6} lg={4}>
-                        <Box>
-                            <Card sx={{ maxWidth: 345 }}>
-                                <CardHeader
-                                    action={
 
-                                        <Button variant="contained" sx={{ mr: 2, p: 2, backgroundColor: 'red' }} onClick={() => handleDeleteUser(item)}>
-                                            <FaTrashAlt className="text-red-600" />
-                                        </Button>
-                                    }
-                                    title={item.title}
-                                    subheader={item.date}
-                                />
-                                <CardContent>
-                                    <Typography variant="body2" color="text.secondary" sx={{ height: 50 }}>
-                                        {item.question1}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions disableSpacing>
-                                    <Link to={`update/${item._id}`}>
+
+            <Box sx={{width: '100%', my: 10}}>
+            <SectionTitle heading={"manage surveys"}></SectionTitle>
+            <TableContainer component={Paper}  >
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Question</TableCell>
+                            <TableCell sx={{textAlign:'center'}}>Date<br/>YYYY-MM-DD HH:MM</TableCell>
+                            <TableCell>Status</TableCell>
+                            <TableCell>Report Status</TableCell>
+                            <TableCell>Admin Message</TableCell>
+                            <TableCell>Update</TableCell>
+                            <TableCell>Delete</TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {userSurveys.map((item) => (
+                            <TableRow key={item._id}>
+                                <TableCell>{item.title}</TableCell>
+                                <TableCell>{item.question1}</TableCell>
+                                <TableCell>{item.time}</TableCell>
+                                <TableCell>{item.status}</TableCell>
+                                <TableCell sx={{textAlign: 'center'}}>{item.Report ? <Box color={'red'}><IoIosWarning/></Box> : 'N/A'}</TableCell>
+                                <TableCell>{
+                                    item.message ?
+                                    <small>{item.message}</small> : 'N/A'}</TableCell>
+                                <TableCell>
+                                <Link to={`update/${item._id}`}>
                                         <Button variant="outlined" fullWidth><FaAngleDoubleUp></FaAngleDoubleUp></Button>
                                     </Link>
-                                </CardActions>
+                                </TableCell>
+                                <TableCell onClick={() => handleDeleteUser(item)}><Button sx={{color: 'orange'}}><FaTrashAlt></FaTrashAlt></Button></TableCell>
 
-                            </Card>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
         </Box>
     );
 };
