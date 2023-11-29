@@ -48,7 +48,7 @@ const SurveyDetails = () => {
     const [votes] = useVote();
     const filterVotedSurvey = votes.filter((vote) => vote.surveyId === id)
     const filtervotedemail = votes.filter((vote) => vote.email === user?.email)
-    console.log("&&",filterVotedSurvey && filtervotedemail);
+    console.log("&&", filterVotedSurvey && filtervotedemail);
 
     useEffect(() => {
         const fetchSurveyDetails = async () => {
@@ -111,26 +111,10 @@ const SurveyDetails = () => {
             });
         handleClose();
     };
-    
-    // const handleReport = () => {
-    //     console.log(`Report survey ID: ${selectedSurvey._id}`);
-    //     axiosSecure.patch(`/vote/report/${selectedSurvey._id}`)
-    //     .then(res => {
-    //         console.log(res.data);
-    //         if (res.data.modifiedCount > 0) {
-    //             refetch();
-    //             Swal.fire({
-    //                 icon: "success",
-    //                 title: `has been reported!`,
-    //                 showConfirmButton: false,
-    //                 timer: 1500
-    //             });
-    //         }
-    //     });
-    //     handleClose();
-    // };
 
- 
+
+
+
 
     const handleSubmission = async () => {
         if (!selectedValue) {
@@ -143,7 +127,7 @@ const SurveyDetails = () => {
         } else {
             // Check if the user has already voted for this survey
             const hasVotedBefore = filterVotedSurvey.length > 0 && filtervotedemail.length > 0;
-    
+
             if (hasVotedBefore) {
                 // Show a Swal alert indicating the user has already voted
                 Swal.fire({
@@ -165,12 +149,12 @@ const SurveyDetails = () => {
                         comment: vots,
                         time: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
                     };
-    
+
                     // Assuming axiosSecure is an Axios instance
                     const response = await axiosSecure.post('/vote', postData);
-    
+
                     console.log('Server response:', response.data); // Log the response from the server
-    
+
                     if (response.data.insertedId) {
                         Swal.fire({
                             icon: 'success',
@@ -188,9 +172,9 @@ const SurveyDetails = () => {
             }
         }
     };
-    const handleCommentProUser =()=>{
+    const handleCommentProUser = () => {
         if (!proUserTrue) {
-            return   Swal.fire({
+            return Swal.fire({
                 icon: 'warning',
                 title: `Upgrade to pro to comment`,
                 showConfirmButton: false,
@@ -225,7 +209,7 @@ const SurveyDetails = () => {
 
     console.log(comments);
 
-  
+
     return (
         <Box sx={{ mb: 10 }}>
             <SectionTitle heading={'Survey Details'} />
@@ -279,7 +263,7 @@ const SurveyDetails = () => {
                         </CardContent>
                         <CardActions disableSpacing>
                             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                                <MenuItem onClick={()=>handleReport(selectedSurvey)}>Report</MenuItem>
+                                <MenuItem onClick={() => handleReport(selectedSurvey)}>Report</MenuItem>
                                 {/* onClick={() => handleMakeAdmin(user)}  */}
                             </Menu>
 
@@ -304,7 +288,7 @@ const SurveyDetails = () => {
                                     variant="outlined"
                                     value={vots}
                                     onChange={handleCommentProUser}
-                                    
+
                                 />
                             )}
                             <Button variant="contained" onClick={handleSubmission}>

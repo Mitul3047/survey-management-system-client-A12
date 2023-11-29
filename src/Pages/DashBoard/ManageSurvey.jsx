@@ -1,39 +1,22 @@
-import { useState } from 'react';
-import { Box, Button, Grid } from "@mui/material";
+
+import { Box, Button,  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import useSurveys from "../../Hooks/useSurveys";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import Menu from '@mui/material/Menu';
 import SectionTitle from "../../Components/Utiles/SetTheme/SectionTitle/SectionTitle";
 // import { Link } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-
+import { GiConfirmed } from "react-icons/gi";
+import { IoIosWarning } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
 const ManageSurvey = () => {
 
     // eslint-disable-next-line no-unused-vars
     const [surveys, loading, refetch] = useSurveys();
     const axiosSecure = useAxiosSecure();
-    const [anchorEl, setAnchorEl] = useState(null);
+   
 
 
-    // eslint-disable-next-line no-unused-vars
-    const handleClick = (event, survey) => {
-        setAnchorEl(event.currentTarget);
-        // setSelectedSurvey(survey);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-        // setSelectedSurvey(null);
-    };
 
 
     const handleDeleteUser = (item) => {
@@ -61,6 +44,31 @@ const ManageSurvey = () => {
             }
         });
     }
+    const handleDeclined = (item) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/surveys/survey/decline/${item._id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            Swal.fire({
+                                title:"Declined!",
+                                text: "Your file has been Declined.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    }
     const handleAccept = item => {
         axiosSecure.patch(`/surveys/survey/${item._id}`)
             .then(res => {
@@ -77,61 +85,53 @@ const ManageSurvey = () => {
             })
     }
     return (
-        <Box>
+        <Box sx={{width: '100%', my: 10}}>
             <SectionTitle heading={"manage surveys"}></SectionTitle>
-            <Grid container sx={{ width: '100%', margin: "auto", mt: 6 }} spacing={2}>
-                {surveys.map((item) => (
-                    <Grid item key={item._id} xs={12} md={6} lg={4} >
-                        <Box>
-                            <Card sx={{ maxWidth: 345}}>
-                                <CardHeader
-                                    avatar={
-                                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={item?.photo}>
+            <TableContainer component={Paper}  >
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Title</TableCell>
+                            <TableCell>Question</TableCell>
+                            <TableCell>Accept</TableCell>
+                            <TableCell>Decline</TableCell>
+                            <TableCell>Report Status</TableCell>
+                            <TableCell>Delete</TableCell>
 
-                                        </Avatar>
-                                    }
-                                    action={
-                                        <>
-                                        <Button variant="contained" sx={{ mr: 2, p: 2, backgroundColor: 'red' }} onClick={() => handleDeleteUser(item)}>
-                                            <FaTrashAlt className="text-red-600" />
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {surveys.map((item) => (
+                            <TableRow key={item._id}>
+                                <TableCell>{item.title}</TableCell>
+                                <TableCell>{item.question1}</TableCell>
+                                <TableCell>
+                                    {
+                                        item.status === "Accept" ? <>
+                                        <Box color={"green"} textAlign={'center'}><GiConfirmed/></Box>
+                                        </> : 
+                                        <Button variant="contained"sx={{ backgroundColor: 'green' }} onClick={() => handleAccept(item)}>
+                                        <GiConfirmed />
                                         </Button>
-</>
                                     }
-                                    title={item.name} // Replace with your survey title data
-                                    subheader={item.date} // Replace with your survey date data
-                                />
-                                <CardContent sx={{height: 100 }}>
-                                    <Typography variant="h6" >
-                                        {item.title} {/* Replace with your survey description data */}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {item.question1} {/* Replace with your survey description data */}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions disableSpacing>
-
-                                    <IconButton >
-
-                                        {/*   to={`details/${item._id}`}><Button>See Details</Button></Link> */}
-                                    </IconButton>
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                    >
-
-                                    </Menu>
-                                    { item.status ==="Accept" ? <Typography sx={{color:'green'}}>Accept</Typography>:<Button variant="outlined" fullWidth sx={{m:2}} onClick={() => handleAccept(item)}>
-                                           Accept
-                                        </Button>
-                                        }
-                                </CardActions>
-
-                            </Card>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
+                                    
+                                </TableCell>
+                                <TableCell>
+                                    {item.status === "Declined" ? <Box sx={{color:'red' }} textAlign={'center'}><MdCancel /></Box> : <Button onClick={() => handleDeclined(item)} >
+                                    <MdCancel />
+                                    </Button>}
+                                </TableCell>
+                                <TableCell>{item.Report === true && <Typography sx={{color: 'red'}}><IoIosWarning /></Typography>}</TableCell>
+                                <TableCell>
+                                    <Button variant="contained"  sx={{ backgroundColor: 'orange' }} onClick={() => handleDeleteUser(item)}>
+                                        <FaTrashAlt></FaTrashAlt>
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
     );
 };
