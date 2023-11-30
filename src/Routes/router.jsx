@@ -24,12 +24,14 @@ import ContactUs from '../Pages/ContactUs';
 import UserPaymentHistory from '../Pages/DashBoard/UserPaymentHistory';
 import AdminRoute from './AdminRoute';
 import SurveyourRoute from './SurveyorRoute';
+import Error from '../Pages/Error';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
 const router = createBrowserRouter([
     {
         path: '/',
+        errorElement:<Error></Error>,
         element: <MainLayout></MainLayout>,
         children: [
             {
