@@ -22,6 +22,8 @@ import SurveyourVote from '../Pages/surveyourVote';
 import AboutUs from '../Pages/AboutUs/AboutUs';
 import ContactUs from '../Pages/ContactUs';
 import UserPaymentHistory from '../Pages/DashBoard/UserPaymentHistory';
+import AdminRoute from './AdminRoute';
+import SurveyourRoute from './SurveyorRoute';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -82,34 +84,34 @@ const router = createBrowserRouter([
             },
             {
                 path:'/dashboard/mysurvey',
-                element:<MySurvey></MySurvey>
+                element:<SurveyourRoute><MySurvey></MySurvey></SurveyourRoute>,
             },
             {
                 path:'/dashboard/mysurvey/vote',
-                element:<SurveyourVote></SurveyourVote>
+                element:<SurveyourRoute><SurveyourVote></SurveyourVote></SurveyourRoute>,
             },
             {
                 path: '/dashboard/mysurvey/update/:id',
-                element: <UpdateSurvey></UpdateSurvey>,
+                element: <SurveyourRoute><UpdateSurvey></UpdateSurvey></SurveyourRoute>,
                 loader: ({params}) => fetch(`http://localhost:3000/surveys/${params.id}`)
             },
             
             // ADMIN
             {
                 path:'/dashboard/managesurvey',
-                element:<ManageSurvey></ManageSurvey>
+                element:<AdminRoute><ManageSurvey></ManageSurvey></AdminRoute>
             },
             {
                 path:'/dashboard/users',
-                element:<Users></Users>
+                element:<AdminRoute></AdminRoute>
             },
             {
                 path:'/dashboard/payments',
-                element:<Payments></Payments>
+                element:<AdminRoute><Payments></Payments></AdminRoute>
             },
             {
                 path:'/dashboard/allvotes',
-                element:<AllVotes></AllVotes>
+                element: <AdminRoute><Payments></Payments></AdminRoute>
             },
            
         ]
