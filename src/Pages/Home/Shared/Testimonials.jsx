@@ -39,7 +39,7 @@ const Testimonials = () => {
                             <CardActionArea>
                                 <CardMedia
                                     component="img"
-                                    image="https://images.unsplash.com/photo-1610276198568-eb6d0ff53e48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cG90cmFpdHxlbnwwfHwwfHx8MA%3D%3D"
+                                    image={review.img}
                                     alt="green iguana"
                                     sx={{
                                         height: '140px',

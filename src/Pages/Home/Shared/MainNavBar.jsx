@@ -90,7 +90,7 @@ function MainNavbar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', background: '#1d3557' }}>
       <Typography variant="h6" sx={{ my: 2, color: 'white' }}>
-        SURVEY
+      SurveyMaster
       </Typography>
       <Divider />
       <List>
@@ -129,7 +129,7 @@ function MainNavbar(props) {
               component="div"
               sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
             >
-              SURVEY
+              SurveyMaster
             </Typography>
             {
             user && (

@@ -1,0 +1,35 @@
+.root {
+    & .MuiOutlinedInput-root {
+      & fieldset {
+        border-color: #424770;
+      }
+      &:hover fieldset {
+        border-color: #424770;
+      }
+      &.Mui-focused fieldset {
+        border-color: #424770;
+      }
+    }
+    & .MuiFormLabel-root {
+      color: #424770;
+    }
+  }
+  
+  .errorText {
+    color: #9e2146;
+  }
+  
+  .successText {
+    color: #3f9d4b;
+  }
+  
+  .button {
+    margin-top: 1rem;
+    background-color: #424770;
+    color: white;
+  }
+  
+  .button:hover {
+    background-color: #313e4f;
+  }
+  

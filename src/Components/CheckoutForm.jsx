@@ -2,17 +2,20 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useAuth from "../Hooks/useAuth";
 // import useSurveys from "../Hooks/useSurveys";
 import moment from "moment/moment";
 import useUser from "../Hooks/useUser";
+import { Button, Grid, Typography } from "@mui/material";
 
 
 const CheckoutForm = () => {
     const [users, , refetch] = useUser();
     console.log(users);
+    const {id} = useParams()
+    console.log(id);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('')
     const [transactionId, setTransactionId] = useState('');
@@ -25,9 +28,11 @@ const CheckoutForm = () => {
     const navigate = useNavigate();
 
     const filterUser = users.filter(survey => survey?.email === user?.email)
+    const newfilterUser = users.find(survey => survey?.email === user?.email)
+    console.log("newwwwww",newfilterUser);
     console.log('fghj', filterUser[0]?.email);
-    const userId = filterUser[0]?._id
-
+    const userId = newfilterUser?._id
+console.log(userId);
     const totalPrice = 30
 
     useEffect(() => {
@@ -214,7 +219,8 @@ const CheckoutForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <Grid sx={{height: '44vh'}}>
+        <form onSubmit={handleSubmit} >
             <CardElement
                 options={{
                     style: {
@@ -231,12 +237,13 @@ const CheckoutForm = () => {
                     },
                 }}
             />
-            <button className="btn btn-sm btn-primary my-4" type="submit" disabled={!stripe || !clientSecret}>
+            <Button variant="contained"  type="submit" disabled={!stripe || !clientSecret}>
                 Pay
-            </button>
-            <p className="text-red-600">{error}</p>
-            {transactionId && <p className="text-green-600"> Your transaction id: {transactionId}</p>}
+            </Button>
+            <Typography className="text-red-600">{error}</Typography>
+            {transactionId && <Typography sx={{color: 'green'}}> Your transaction id: {transactionId}</Typography>}
         </form>
+        </Grid>
     );
 };
 

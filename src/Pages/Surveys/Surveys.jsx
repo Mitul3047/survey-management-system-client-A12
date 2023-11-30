@@ -54,23 +54,23 @@ const Surveys = () => {
 
                                         </Avatar>
                                     }
-                                    action={
-                                        <IconButton aria-label="settings" onClick={(e) => handleClick(e, item)}>
-                                            <MoreVertIcon />
-                                        </IconButton>
-                                    }
+                                    // action={
+                                    //     <IconButton aria-label="settings" onClick={(e) => handleClick(e, item)}>
+                                    //         <MoreVertIcon />
+                                    //     </IconButton>
+                                    // }
                                     title={item.name} // Replace with your survey title data
                                     subheader={<TimeAgo timestamp={item?.time} />} // Replace with your survey date data
                                 />
                                 <CardContent>
-                                    <Typography variant="body2" color="text.secondary" sx={{ height: 180 }}>
+                                    <Typography variant="body2" color="text.secondary" sx={{ height: 150 }}>
                                         {item.description} {/* Replace with your survey description data */}
                                     </Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites">
+                                    {/* <IconButton aria-label="add to favorites">
                                         <FavoriteIcon />
-                                    </IconButton>
+                                    </IconButton> */}
                                     <IconButton aria-label="share">
                                         <Link to={`details/${item._id}`}><Button>See Details</Button></Link>
                                     </IconButton>
@@ -79,7 +79,7 @@ const Surveys = () => {
                                         open={Boolean(anchorEl)}
                                         onClose={handleClose}
                                     >
-                                        <MenuItem onClick={handleReport}>Report</MenuItem>
+                                        {/* <MenuItem onClick={handleReport}>Report</MenuItem> */}
                                     </Menu>
                                 </CardActions>
                             </Card>

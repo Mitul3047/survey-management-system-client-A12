@@ -41,13 +41,22 @@ const SurveyDetails = () => {
     // eslint-disable-next-line no-unused-vars
     const [users, , refetch] = useUser();
     const [comments, setComments] = useState([]);
+    const [votes] = useVote();
     const filterUser = users.filter((survey) => survey?.email === user?.email);
     const proUserTrue = filterUser[0]?.proUser;
-    const [votes] = useVote();
+   
+    const newfilterUser = users.find((survey) => survey?.email === user?.email);
+    const newproUserTrue = newfilterUser?.proUser;
+    console.log('old',proUserTrue,'new',newproUserTrue);
+    
+    
     const filterVotedSurvey = votes.filter((vote) => vote.surveyId === id)
     const filtervotedemail = votes.filter((vote) => vote.email === user?.email)
-    console.log("&&", filterVotedSurvey && filtervotedemail);
-
+    console.log("&&", filterVotedSurvey[0]?._id , id);
+    console.log(filtervotedemail[0]?.email, user?.email);
+    const votedID =filterVotedSurvey[0]?._id
+    const votedEmail = filtervotedemail[0]?.email
+    console.log("vs",votedID,votedEmail);
     useEffect(() => {
         const fetchSurveyDetails = async () => {
             try {
@@ -111,67 +120,54 @@ const SurveyDetails = () => {
     };
 
 
-
-
-
     const handleSubmission = async () => {
         if (!selectedValue) {
-            Swal.fire({
-                icon: 'error',
-                title: `Please Select Your Answer`,
+          Swal.fire({
+            icon: 'error',
+            title: `Please Select Your Answer`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else {
+          try {
+            const postData = {
+              surveyId: id,
+              surveyourMail: surveyDetails.email,
+              name: user?.displayName,
+              photo: user?.photoURL,
+              email: user?.email,
+              question: surveyDetails.question1,
+              selectedValue: selectedValue,
+              comment: vots,
+              time: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
+            };
+    
+            const response = await axiosSecure.post('/vote', postData);
+    
+            console.log('Server response:', response.data);
+    
+            if (response.data.insertedId) {
+              Swal.fire({
+                icon: 'success',
+                title: `Voted successfully.`,
                 showConfirmButton: false,
                 timer: 1500,
-            }); // Alert if no radio button is selected
-        } else {
-            // Check if the user has already voted for this survey
-            const hasVotedBefore = filterVotedSurvey.length > 0 && filtervotedemail.length > 0;
-
-            if (hasVotedBefore) {
-                // Show a Swal alert indicating the user has already voted
-                Swal.fire({
-                    icon: 'error',
-                    title: `You have already voted for this survey.`,
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            } else {
-                try {
-                    const postData = {
-                        surveyId: id,
-                        surveyourMail: surveyDetails.email,
-                        name: user?.displayName,
-                        photo: user?.photoURL,
-                        email: user?.email,
-                        question: surveyDetails.question1,
-                        selectedValue: selectedValue,
-                        comment: vots,
-                        time: moment.utc(new Date()).format('YYYY-MM-DD HH:mm'),
-                    };
-
-                    // Assuming axiosSecure is an Axios instance
-                    const response = await axiosSecure.post('/vote', postData);
-
-                    console.log('Server response:', response.data); // Log the response from the server
-
-                    if (response.data.insertedId) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: `Voted successfully.`,
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-                        setVots('');
-                    }
-                    // Perform submission logic here if needed
-                } catch (error) {
-                    console.error('Error submitting data:', error);
-                    // Handle error scenarios if the POST request fails
-                }
+              });
+              // Reload the page or refresh data here
+              // location.reload()
+              // refetch()
+              setVots('');
             }
+          } catch (error) {
+            console.error('Error submitting data:', error);
+          }
         }
-    };
+      };
+
+
+
     const handleCommentProUser = () => {
-        if (!proUserTrue) {
+        if (!newproUserTrue) {
             return Swal.fire({
                 icon: 'warning',
                 title: `Upgrade to pro to comment`,
@@ -265,7 +261,7 @@ const SurveyDetails = () => {
                                 {/* onClick={() => handleMakeAdmin(user)}  */}
                             </Menu>
 
-                            {proUserTrue ? (
+                            {newproUserTrue ? (
                                 <TextField
                                     id="outlined-multiline-static"
                                     label="Comment..."

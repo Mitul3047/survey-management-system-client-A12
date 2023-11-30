@@ -19,6 +19,9 @@ import PrivateRoute from './PrivateRoute';
 import Payments from '../Pages/DashBoard/Payments';
 import AllVotes from '../Pages/DashBoard/AllVotes';
 import SurveyourVote from '../Pages/surveyourVote';
+import AboutUs from '../Pages/AboutUs/AboutUs';
+import ContactUs from '../Pages/ContactUs';
+import UserPaymentHistory from '../Pages/DashBoard/UserPaymentHistory';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -53,6 +56,14 @@ const router = createBrowserRouter([
                 path: "/signup",
                 element: <SignUp></SignUp>
             },
+            {
+                path: "/about",
+                element: <AboutUs></AboutUs>
+            },
+            {
+                path: "/contact",
+                element: <ContactUs></ContactUs>
+            },
 
         ]
     },
@@ -60,7 +71,11 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
         children: [
-            // user
+            {
+                path:'/dashboard/mypayments',
+                element:<UserPaymentHistory></UserPaymentHistory>
+            },
+            // surveyour
             {
                 path:'/dashboard/postSurvey',
                 element:<PostSurvey></PostSurvey>

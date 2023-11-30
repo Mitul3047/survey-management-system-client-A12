@@ -56,7 +56,7 @@ const NewlyPosted = () => {
                                 </CardContent>
                                 <CardActions disableSpacing>
                                     <IconButton aria-label="share">
-                                        <Link to={`details/${item._id}`}><Button>See Details</Button></Link>
+                                        <Link to={`surveys/details/${item._id}`}><Button>See Details</Button></Link>
                                     </IconButton>
                                 </CardActions>
                             </Card>

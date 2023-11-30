@@ -8,6 +8,10 @@ const fixedNavItems = [
     { name: 'Home', path: '/' },
 
 ];
+const userNavItems = [
+    { name: 'payments', path: '/dashboard/mypayments' },
+
+];
 const SurveyorNavItems = [
     { name: 'Post Survey', path: '/dashboard/postSurvey' },
     { name: 'My Survey', path: '/dashboard/mysurvey' },
@@ -69,12 +73,24 @@ const DashBoard = () => {
                             </List>
 
 
-
-
-
                             <Divider ></Divider>
                         </>
                     }
+{
+    !isAdmin && !isSurveyor &&
+    <List>
+    {userNavItems.map((item) => (
+        <ListItem key={item.name} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+                <NavLink to={item.path} style={{ textDecoration: 'none', color: '#1d3557' }}>
+                    <ListItemText sx={{ color: "white" }} primary={item.name} />
+                </NavLink>
+            </ListItemButton>
+        </ListItem>
+    ))}
+</List>
+}
+
                     {/* <ReactLink to={'/'}><Button fullWidth variant="contained" sx={{ mt: 2 }}>Text</Button></ReactLink> */}
                     <List>
                         {fixedNavItems.map((item) => (

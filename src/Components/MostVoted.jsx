@@ -1,51 +1,60 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import  { useEffect, useState } from 'react';
+import SectionTitle from './Utiles/SetTheme/SectionTitle/SectionTitle';
+import useAxiosPublic from '../Hooks/useAxiosPublic';
 
-const MostVoted = () => {
-    const [votedSurveys, setVotedSurveys] = useState([]);
+const SurveyComponent = () => {
+  const [surveyData, setSurveyData] = useState([]);
+  const axiosPublic = useAxiosPublic();
 
-    useEffect(() => {
-        axios.get('/vote')
-            .then(response => {
-                const surveyData = response.data;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data using Axios from your API endpoint
+        const response = await axiosPublic.get('/vote');
+        setSurveyData(response.data); // Assuming response.data contains the survey data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-                if (Array.isArray(surveyData)) {
-                    const surveyVotes = {};
+    fetchData();
+  }, [axiosPublic]);
 
-                    surveyData.forEach(survey => {
-                        const surveyId = survey.surveyId;
-                        surveyVotes[surveyId] = (surveyVotes[surveyId] || 0) + 1;
-                    });
+  // Function to filter and get top 6 data by surveyId in decreasing order
+  const getTop6Data = () => {
+    const surveyIdCount = surveyData.reduce((acc, entry) => {
+      acc[entry.surveyId] = (acc[entry.surveyId] || 0) + 1;
+      return acc;
+    }, {});
 
-                    const sortedSurveys = Object.keys(surveyVotes).map(surveyId => {
-                        return { surveyId, votes: surveyVotes[surveyId] };
-                    });
+    const sortedSurveyIds = Object.keys(surveyIdCount).sort((a, b) => surveyIdCount[b] - surveyIdCount[a]);
 
-                    const sortedByVotes = sortedSurveys.sort((a, b) => b.votes - a.votes);
-                    const mostVoted = sortedByVotes.slice(0, 6);
+    const top6Data = [];
+    for (const surveyId of sortedSurveyIds) {
+      const surveyDataFiltered = surveyData.filter(entry => entry.surveyId === surveyId);
+      top6Data.push(...surveyDataFiltered.slice(0, 6));
+    }
 
-                    setVotedSurveys(mostVoted);
-                } else {
-                    console.error('Invalid survey data format:', surveyData);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching survey data:', error);
-            });
-    }, []);
+    return top6Data;
+  };
 
-    return (
-        <div>
-            <h2>Most Voted Surveys</h2>
-            <ul>
-                {votedSurveys.map((survey, index) => (
-                    <li key={index}>
-                        Survey ID: {survey.surveyId}, Votes: {survey.votes}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  const top6Data = getTop6Data();
+
+  // Render your top 6 data
+  return (
+    <div>
+      <SectionTitle heading={'Top Voted Survey'}></SectionTitle>
+      <ul>
+        {top6Data.map(entry => (
+          <li key={entry._id}>
+            {/* Render your data here */}
+            <p>{entry.question}</p>
+            {/* Other data fields */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
-export default MostVoted;
+export default SurveyComponent;
