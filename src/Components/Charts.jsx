@@ -19,7 +19,7 @@ const Charts = ({ total, yes: totalYes }) => {
   return (
     <Box>
       <SectionTitle heading={"Survey Chart"}></SectionTitle>
-      <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70vh" }}>
+      <Box style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
         <PieChart width={400} height={400}>
           <Pie
             data={pieChartData}
@@ -31,10 +31,10 @@ const Charts = ({ total, yes: totalYes }) => {
           />
           <Legend
             verticalAlign="top"
-            align="right"
+            align="center"
             wrapperStyle={{
               position: "absolute",
-              bottom: 40,
+              bottom: 0,
               left: 10,
             }}
             data={[

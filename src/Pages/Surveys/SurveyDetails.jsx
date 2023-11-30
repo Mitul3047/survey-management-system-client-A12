@@ -157,6 +157,7 @@ const SurveyDetails = () => {
               // location.reload()
               // refetch()
               setVots('');
+              location.reload()
             }
           } catch (error) {
             console.error('Error submitting data:', error);
