@@ -17,7 +17,7 @@ import UpdateSurvey from '../Pages/DashBoard/UpdateSurvey';
 import Payment from '../Pages/Payment';
 import PrivateRoute from './PrivateRoute';
 import Payments from '../Pages/DashBoard/Payments';
-import AllVotes from '../Pages/DashBoard/AllVotes';
+// import AllVotes from '../Pages/DashBoard/AllVotes';
 import SurveyourVote from '../Pages/surveyourVote';
 import AboutUs from '../Pages/AboutUs/AboutUs';
 import ContactUs from '../Pages/ContactUs';
@@ -93,7 +93,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/mysurvey/update/:id',
                 element: <SurveyourRoute><UpdateSurvey></UpdateSurvey></SurveyourRoute>,
-                loader: ({params}) => fetch(`http://localhost:3000/surveys/${params.id}`)
+                loader: ({params}) => fetch(`https://survey-api-three.vercel.app/surveys/${params.id}`)
             },
             
             // ADMIN
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
             },
             {
                 path:'/dashboard/users',
-                element:<AdminRoute></AdminRoute>
+                element:<AdminRoute><Users></Users></AdminRoute>
             },
             {
                 path:'/dashboard/payments',
