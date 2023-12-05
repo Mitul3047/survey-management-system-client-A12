@@ -15,10 +15,7 @@ Pro1234@
 user@user.com
 User1234@
 
-live Link   : https://survey-auth-3fdb6.firebaseapp.com/
-Server Code : https://github.com/programming-hero-web-course1/b8a12-client-side-Mitul3047
 
-Client Code : https://github.com/programming-hero-web-course1/b8a12-server-side-Mitul3047
 
 
 ●  points for the client.
