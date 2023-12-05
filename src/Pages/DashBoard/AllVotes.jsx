@@ -49,4 +49,6 @@ const AllVotes = () => {
     );
 };
 
+
+
 export default AllVotes;

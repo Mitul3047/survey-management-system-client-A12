@@ -44,33 +44,25 @@ const ManageSurvey = () => {
             }
         });
     }
-    const handleDeclined = (item) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSecure.patch(`/surveys/survey/decline/${item._id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title:"Declined!",
-                                text: "Your file has been Declined.",
-                                icon: "success"
-                            });
-                        }
-                    })
-            }
-        });
-    }
+   
     const handleAccept = item => {
         axiosSecure.patch(`/surveys/survey/${item._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        icon: "success",
+                        title: `Accepted`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+   
+    const handleDeclined = item => {
+        axiosSecure.patch(`/surveys/survey/decline/${item._id}`)
             .then(res => {
                 console.log(res.data)
                 if (res.data.modifiedCount > 0) {
@@ -119,9 +111,14 @@ const ManageSurvey = () => {
                                     
                                 </TableCell>
                                 <TableCell>
-                                    {item.status === "Declined" ? <Box sx={{color:'red' }} textAlign={'center'}><MdCancel /></Box> : <Button onClick={() => handleDeclined(item)} >
-                                    <MdCancel />
-                                    </Button>}
+                                {
+                                        item.status === "Decline" ? <>
+                                        <Box color={"red"} textAlign={'center'}><MdCancel></MdCancel></Box>
+                                        </> : 
+                                        <Button variant="contained"sx={{ backgroundColor: 'red' }} onClick={() => handleDeclined(item)}>
+                                        <GiConfirmed />
+                                        </Button>
+                                    }
                                 </TableCell>
                                 <TableCell>{item.Report === true && <Typography sx={{color: 'red'}}><IoIosWarning /></Typography>}</TableCell>
                                 <TableCell>

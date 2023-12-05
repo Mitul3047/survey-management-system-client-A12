@@ -23,27 +23,68 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data.email, data.password);
+    // signIn(data.email, data.password)
+    //   .then(result => {
+    //     const user = result.user;
+    //     console.log(user);
+    //     // Swal.fire({
+    //     //   title: 'User Login Successful.',
+    //     //   showClass: {
+    //     //     popup: 'animate__animated animate__fadeInDown'
+    //     //   },
+    //     //   hideClass: {
+    //     //     popup: 'animate__animated animate__fadeOutUp'
+    //     //   }
+    //     // });
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: `Login Successful`,
+    //       showConfirmButton: false,
+    //       timer: 1500
+    //     })
+    //     navigate(from, { replace: true });
+    //   }) 
+    //   .catch(error => {
+    //     console.error(error);
+    //     if (error.message === "Firebase: Error (auth/invalid-login-credentials).") {
+    //         Swal.fire(
+    //             'Oops!',
+    //             'Invalid user or password',
+    //             'error'
+    //         );
+    //         return logOut();
+    //     } else {
+    //         setError(error.message);
+    //     }
+    // });
     signIn(data.email, data.password)
-      .then(result => {
-        const user = result.user;
-        console.log(user);
-        // Swal.fire({
-        //   title: 'User Login Successful.',
-        //   showClass: {
-        //     popup: 'animate__animated animate__fadeInDown'
-        //   },
-        //   hideClass: {
-        //     popup: 'animate__animated animate__fadeOutUp'
-        //   }
-        // });
+    .then(result => {
+        console.log(result.user);
         Swal.fire({
+          // position: "top-end",
           icon: "success",
-          title: `Login Successful`,
+          title: "LogIn Sucessful",
           showConfirmButton: false,
           timer: 1500
-        })
+        });
+
+        // // Reset the form fields
+        // e.target.email.value = '';
+        // e.target.password.value = '';
         navigate(from, { replace: true });
-      })
+        // navigate(location?.state ? location.state : '/');
+    })
+    .catch(error => {
+        console.error(error);
+        Swal.fire({
+          // position: "top-end",
+          icon: "error",
+          title: "Invalid User or Password",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      
+    });
   };
 
   const handleGoogleSignIn = () => {

@@ -9,7 +9,7 @@ import SectionTitle from './Utiles/SetTheme/SectionTitle/SectionTitle';
 const NewlyPosted = () => {
     const axiosPublic = useAxiosPublic();
     const [surveys, setSurveys] = useState([]);
-
+    const acceptedSurveys = surveys.filter(survey => survey.status === "Accept");
     useEffect(() => {
         const fetchSurveys = async () => {
             try {
@@ -26,7 +26,7 @@ const NewlyPosted = () => {
     }, [axiosPublic]); // Ensure to include axiosPublic in the dependency array if it's used inside useEffect
 
     // Sort surveys based on creation time in descending order (most recent first)
-    const sortedSurveys = surveys
+    const sortedSurveys = acceptedSurveys
         .sort((a, b) => new Date(b.time) - new Date(a.time))
         .slice(0, 6);
 

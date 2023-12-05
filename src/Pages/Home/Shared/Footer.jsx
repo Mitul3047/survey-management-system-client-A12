@@ -13,12 +13,12 @@ const Footer = () => {
       >
         <Grid item xs={12}>
           <Typography variant="body1" align="center">
-            © 2023 Your Website. All rights reserved by MITUL.
+            © 2023 SurveyMaster. All rights reserved 
           </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="body2" align="center">
-            Created with love by You
+            Created with love by MITUL.
           </Typography>
         </Grid>
       </Grid>

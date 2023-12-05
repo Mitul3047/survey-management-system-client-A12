@@ -3,8 +3,8 @@ import { Container, Typography, Grid } from '@mui/material';
 
 const AboutUs = () => {
   return (
-    <Container sx={{height: '78vh'}}>
-      <Typography pt={11} variant="h3" align="center" gutterBottom>
+    <Container sx={{pt:10, height: "100vh ", display: 'flex', flexDirection:'column',alignItems: 'center'}} >
+      <Typography  mb={5} variant="h3" align="center" gutterBottom>
         About Us
       </Typography>
       <Grid container spacing={3}>

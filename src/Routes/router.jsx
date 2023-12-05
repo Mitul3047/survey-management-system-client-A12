@@ -10,7 +10,7 @@ import SignUp from '../Pages/SignUp';
 import DashBoard from '../Layout/DashBoard';
 import PostSurvey from '../Pages/DashBoard/PostSurvey';
 import Users from '../Pages/DashBoard/Users';
-import MySurvey from '../Pages/DashBoard/mysurvey';
+// import MySurvey from '../Pages/DashBoard/mysurvey';
 import SurveyDetails from '../Pages/Surveys/SurveyDetails';
 import ManageSurvey from '../Pages/DashBoard/ManageSurvey';
 import UpdateSurvey from '../Pages/DashBoard/UpdateSurvey';
@@ -18,13 +18,17 @@ import Payment from '../Pages/Payment';
 import PrivateRoute from './PrivateRoute';
 import Payments from '../Pages/DashBoard/Payments';
 // import AllVotes from '../Pages/DashBoard/AllVotes';
-import SurveyourVote from '../Pages/surveyourVote';
+// import SurveyourVote from '../Pages/surveyourVote';
 import AboutUs from '../Pages/AboutUs/AboutUs';
 import ContactUs from '../Pages/ContactUs';
 import UserPaymentHistory from '../Pages/DashBoard/UserPaymentHistory';
 import AdminRoute from './AdminRoute';
 import SurveyourRoute from './SurveyorRoute';
 import Error from '../Pages/Error';
+import Feedback from '../Pages/DashBoard/Feedback';
+import AllVotes from '../Pages/DashBoard/AllVotes';
+import MySurvey from '../Pages/DashBoard/MySurvey';
+import SurveyourVote from '../Pages/SurveyourVote';
 // import Survey from '../Pages/Surveys/Surveysjsx';
 // import Surveys from '../Pages/Surveys/Surveys.jsx';
 
@@ -113,7 +117,11 @@ const router = createBrowserRouter([
             },
             {
                 path:'/dashboard/allvotes',
-                element: <AdminRoute><Payments></Payments></AdminRoute>
+                element: <AdminRoute><AllVotes></AllVotes></AdminRoute>
+            },
+            {
+                path:'/dashboard/userfeedback',
+                element: <AdminRoute><Feedback></Feedback></AdminRoute>
             },
            
         ]

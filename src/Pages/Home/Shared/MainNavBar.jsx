@@ -93,6 +93,14 @@ function MainNavbar(props) {
       SurveyMaster
       </Typography>
       <Divider />
+        {!user && (
+                <Button key="Login" sx={{ color: '#fff' }}>
+                  <NavLink to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Login
+                  </NavLink>
+                </Button>
+              )}
+
       <List>
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>

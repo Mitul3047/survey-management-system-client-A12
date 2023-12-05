@@ -22,6 +22,7 @@ const AdminNavItems = [
     { name: 'Manage Surveys', path: '/dashboard/managesurvey' },
     { name: 'Payments', path: '/dashboard/payments' },
     { name: 'All Votes', path: '/dashboard/allvotes' },
+    { name: 'Users FeedBack', path: '/dashboard/userfeedback' },
 ];
 
 

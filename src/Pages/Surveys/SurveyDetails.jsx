@@ -49,14 +49,18 @@ const SurveyDetails = () => {
     const newproUserTrue = newfilterUser?.proUser;
     console.log('old',proUserTrue,'new',newproUserTrue);
     
+    const isVotedId = votes.find(item => item.surveyId === id)
+    console.log('isVot', isVotedId);
+
+   
+
     
     const filterVotedSurvey = votes.filter((vote) => vote.surveyId === id)
     const filtervotedemail = votes.filter((vote) => vote.email === user?.email)
-    console.log("&&", filterVotedSurvey[0]?._id , id);
-    console.log(filtervotedemail[0]?.email, user?.email);
+
     const votedID =filterVotedSurvey[0]?._id
     const votedEmail = filtervotedemail[0]?.email
-    console.log("vs",votedID,votedEmail);
+
     useEffect(() => {
         const fetchSurveyDetails = async () => {
             try {

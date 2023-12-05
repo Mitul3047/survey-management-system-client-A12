@@ -1,14 +1,16 @@
 
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 // import useAuth from '../../Hooks/useAuth';
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { TextField, Button, Grid } from '@mui/material';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const UpdateSurvey = () => {
   const axiosSecure = useAxiosSecure();
   const { id } = useParams();
+  const navigate = useNavigate();
 //   const { user } = useAuth(); // Assuming useAuth provides user details
 
   // Assuming useLoaderData provides initial survey data
@@ -34,6 +36,12 @@ const UpdateSurvey = () => {
         category,
         // Any other fields you want to update
       });
+      Swal.fire({
+        icon: 'success',
+        title: 'Submitted!',
+        text: 'Your message has been sent successfully.',
+      });
+      navigate('/dashboard/mysurvey')
 
       // Optionally, you can add logic here to handle success or redirect the user
       // For example: history.push('/survey-updated');

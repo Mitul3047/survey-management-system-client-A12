@@ -43,7 +43,7 @@ const Testimonials = () => {
                                     alt="green iguana"
                                     sx={{
                                         height: '140px',
-                                        width: '45%',
+                                        width: '140px',
                                         objectFit: 'cover',
                                         borderRadius: '80px', // Adjust the value to change the roundness
                                         p:2,

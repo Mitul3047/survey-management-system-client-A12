@@ -5,11 +5,12 @@ import Swal from 'sweetalert2';
 import SectionTitle from '../../Components/Utiles/SetTheme/SectionTitle/SectionTitle';
 import useAuth from '../../Hooks/useAuth';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const PostSurvey = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-
+    const navigate = useNavigate();
     const [surveyData, setSurveyData] = useState({
         title: '',
         description: '',
@@ -46,6 +47,7 @@ const PostSurvey = () => {
                         showConfirmButton: false,
                         timer: 1500,
                     });
+                    navigate('/surveys')
                 }
             })
             .catch((error) => {

@@ -1,7 +1,8 @@
 import  { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from "@mui/material";
 import useAuth from "../Hooks/useAuth";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import SectionTitle from "../Components/Utiles/SetTheme/SectionTitle/SectionTitle";
 
 const SurveyourVote = () => {
     const { user } = useAuth();
@@ -21,7 +22,8 @@ const SurveyourVote = () => {
     const mySurveyVote = votes.filter(response => response.surveyourMail === user.email);
 
     return (
-        <div>
+        <Box>
+            <SectionTitle heading={"My survey Votes"}></SectionTitle>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -48,7 +50,7 @@ const SurveyourVote = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </Box>
     );
 };
 

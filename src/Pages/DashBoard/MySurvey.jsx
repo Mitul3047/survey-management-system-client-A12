@@ -47,7 +47,7 @@ const MySurvey = () => {
 
 
             <Box sx={{width: '100%', my: 10}}>
-            <SectionTitle heading={"manage surveys"}></SectionTitle>
+
             <TableContainer component={Paper}  >
                 <Table>
                     <TableHead>
