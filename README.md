@@ -33,7 +33,6 @@ This project is an advanced Polling and Survey application developed using the M
 - **Testimonials:** Static section with avatars and testimonials.
 - **FAQ:** Meaningful Frequently Asked Questions.
 
-- 
 
 #### Surveys Page (Public)
 - Display all surveys with titles, descriptions, and vote counts.
